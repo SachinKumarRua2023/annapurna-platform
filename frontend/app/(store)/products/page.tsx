@@ -1,6 +1,8 @@
 'use client'
 // src/app/(store)/products/page.tsx
-import { useEffect, useState, useCallback } from 'react'
+export const dynamic = 'force-dynamic'
+
+import { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -16,7 +18,7 @@ const SORT_OPTIONS = [
   { value: 'name',        label: 'Name A–Z' },
 ]
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams()
   const [products, setProducts]     = useState<Product[]>([])
   const [loading, setLoading]       = useState(true)
@@ -189,5 +191,13 @@ export default function ProductsPage() {
       </main>
       <Footer />
     </>
+  )
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsContent />
+    </Suspense>
   )
 }

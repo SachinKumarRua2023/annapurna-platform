@@ -1,5 +1,7 @@
 'use client'
 // src/app/auth/callback/page.tsx
+export const dynamic = 'force-dynamic'
+
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
