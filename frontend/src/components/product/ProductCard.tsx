@@ -35,13 +35,13 @@ export default function ProductCard({ product }: Props) {
   }
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
+    <Link href={`/products/${product.id}`} className="group block">
       <div className="card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
         {/* Image */}
         <div className="relative aspect-square bg-stone-100 overflow-hidden">
-          {product.primary_image ? (
+          {product.image ? (
             <Image
-              src={product.primary_image}
+              src={product.image}
               alt={product.name}
               fill className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
@@ -53,17 +53,17 @@ export default function ProductCard({ product }: Props) {
 
           {/* Badges */}
           <div className="absolute top-2 left-2 flex flex-col gap-1">
-            {product.discount_percent > 0 && (
+            {product.discount && product.discount > 0 && (
               <span className="badge bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-lg">
-                -{product.discount_percent}%
+                -{product.discount}%
               </span>
             )}
-            {product.is_bestseller && (
+            {product.badge === 'bestseller' && (
               <span className="badge bg-amber-500 text-white text-xs px-2 py-0.5 rounded-lg">
                 🔥 Bestseller
               </span>
             )}
-            {product.stock === 0 && (
+            {product.stock && product.stock === 0 && (
               <span className="badge bg-stone-700 text-white text-xs px-2 py-0.5 rounded-lg">
                 Out of Stock
               </span>
@@ -79,7 +79,7 @@ export default function ProductCard({ product }: Props) {
           </button>
 
           {/* Quick add to cart */}
-          {product.stock > 0 && (
+          {product.stock && product.stock > 0 && (
             <button
               onClick={handleAddToCart}
               disabled={adding}
@@ -93,26 +93,27 @@ export default function ProductCard({ product }: Props) {
 
         {/* Info */}
         <div className="p-3">
-          <p className="text-stone-500 text-xs mb-0.5">{product.category_name}</p>
+          <p className="text-stone-500 text-xs mb-0.5">{product.category}</p>
           <h3 className="font-semibold text-stone-800 text-sm leading-snug line-clamp-2 mb-1.5">
             {product.name}
           </h3>
 
           {/* Rating */}
-          {product.avg_rating > 0 && (
+          {product.rating && product.rating > 0 && (
             <div className="flex items-center gap-1 mb-1.5">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span className="text-xs font-medium text-stone-700">{product.avg_rating}</span>
+              <span className="text-xs font-medium text-stone-700">{product.rating}</span>
+              <span className="text-xs text-stone-400">({product.reviews})</span>
             </div>
           )}
 
           {/* Price */}
           <div className="flex items-baseline gap-2">
             <span className="font-bold text-stone-900">₹{Number(product.price).toFixed(0)}</span>
-            <span className="text-stone-400 text-xs">/{product.unit}</span>
-            {product.compare_price && Number(product.compare_price) > Number(product.price) && (
+            <span className="text-stone-400 text-xs">/unit</span>
+            {product.originalPrice && product.originalPrice > product.price && (
               <span className="text-stone-400 text-xs line-through">
-                ₹{Number(product.compare_price).toFixed(0)}
+                ₹{Number(product.originalPrice).toFixed(0)}
               </span>
             )}
           </div>
