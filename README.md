@@ -5,7 +5,7 @@
 
 ## 🌟 Live Demo
 
-- **Frontend**: [https://annapurna-platform.vercel.app](https://annapurna-platform.vercel.app)
+- **Frontend**: [https://annapurna-ecommerce.vercel.app](https://annapurna-ecommerce.vercel.app)
 - **Backend API**: [https://annapurna-platform.onrender.com](https://annapurna-platform.onrender.com)
 
 ## 🚀 Quick Start
