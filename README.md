@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏔️ Annapurna Platform - World-Class E-Commerce
 
 > Premium Nepalese products platform with cutting-edge 3D animations and modern UI/UX
@@ -144,3 +145,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Made with ❤️ in Nepal by [Sachin Kumar](https://github.com/Sachinkumarrua2023)
+=======
+# annapurna-platform
+E-Commerce website
+>>>>>>> c5a07a7e5fc91be96f26050db56885a165483b30
