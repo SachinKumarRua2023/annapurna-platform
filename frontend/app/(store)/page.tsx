@@ -1,0 +1,501 @@
+'use client'
+// World-Class Homepage - Google CEO Level Design System
+import { useState, useEffect, useMemo } from 'react'
+import { ShoppingCart, User, Search, Menu, X, Star, TrendingUp, Package, Sparkles, Shield, Truck, Heart } from 'lucide-react'
+import ThreeHero from '@/components/ui/ThreeHero'
+import ModernProductGrid from '@/components/ui/ModernProductGrid'
+import { useAuthStore } from '@/store/authStore'
+
+interface Product {
+  id: string
+  name: string
+  price: number
+  description: string
+  category: string
+  supplier: string
+  stock: number
+  is_featured: boolean
+  rating?: number
+  reviews?: number
+  discount?: number
+  badge?: string
+}
+
+export default function HomePage() {
+  const { user } = useAuthStore()
+  const [products, setProducts] = useState<Product[]>([])
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [cartCount, setCartCount] = useState(3)
+
+  // Memoized sample products with enhanced data
+  const sampleProducts = useMemo(() => [
+    {
+      id: '1',
+      name: 'Premium Basmati Rice - Himalayan Gold',
+      price: 89.99,
+      originalPrice: 119.99,
+      description: 'Extra long grain aromatic basmati rice from the fertile Terai region. Aged to perfection for superior taste and texture.',
+      category: 'Organic Grains',
+      supplier: 'Himalayan Organic Farms',
+      stock: 150,
+      is_featured: true,
+      rating: 4.8,
+      reviews: 124,
+      discount: 25,
+      badge: 'Bestseller'
+    },
+    {
+      id: '2',
+      name: 'Wild Timur Pepper - Mountain Spice',
+      price: 28.99,
+      description: 'Himalayan Sichuan pepper with unique citrus flavor profile. Hand-picked from high-altitude regions.',
+      category: 'Spices & Herbs',
+      supplier: 'Kathmandu Spice Traders',
+      stock: 75,
+      is_featured: true,
+      rating: 4.9,
+      reviews: 89,
+      badge: 'Organic'
+    },
+    {
+      id: '3',
+      name: 'Pure Himalayan Wild Honey',
+      price: 38.99,
+      description: 'Raw, unprocessed honey from high-altitude flowers. Rich in antioxidants and natural enzymes.',
+      category: 'Honey & Sweeteners',
+      supplier: 'Everest Honey Collective',
+      stock: 35,
+      is_featured: true,
+      rating: 4.7,
+      reviews: 156,
+      badge: 'Limited'
+    },
+    {
+      id: '4',
+      name: 'Handwoven Pashmina Shawl',
+      price: 125.99,
+      description: 'Luxurious hand-woven pashmina shawl with traditional Himalayan patterns. Perfect for any occasion.',
+      category: 'Handicrafts',
+      supplier: 'Traditional Artisans Guild',
+      stock: 20,
+      is_featured: true,
+      rating: 4.9,
+      reviews: 67,
+      badge: 'Premium'
+    },
+    {
+      id: '5',
+      name: 'Ilam Black Tea - First Flush',
+      price: 25.99,
+      description: 'Premium first flush black tea from the renowned Ilam tea gardens. Delicate flavor with floral notes.',
+      category: 'Tea & Beverages',
+      supplier: 'Valley Tea Estates',
+      stock: 80,
+      is_featured: true,
+      rating: 4.6,
+      reviews: 203,
+      badge: 'New'
+    },
+    {
+      id: '6',
+      name: 'Organic Grass-Fed Ghee',
+      price: 35.99,
+      description: 'Pure clarified butter from grass-fed cows. Rich in vitamins and perfect for cooking.',
+      category: 'Dairy Products',
+      supplier: 'Mountain Dairy Co-op',
+      stock: 60,
+      is_featured: false,
+      rating: 4.8,
+      reviews: 92
+    },
+    {
+      id: '7',
+      name: 'Pure Shilajit Resin',
+      price: 125.99,
+      description: 'Authentic Himalayan shilajit resin. Sourced from high-altitude mountains for maximum potency.',
+      category: 'Health & Wellness',
+      supplier: 'Natural Wellness Nepal',
+      stock: 20,
+      is_featured: false,
+      rating: 4.9,
+      reviews: 45,
+      badge: 'Rare'
+    },
+    {
+      id: '8',
+      name: 'Traditional Sel Roti Pack',
+      price: 12.99,
+      description: 'Authentic homemade sel roti sweet bread. Made with traditional recipes and love.',
+      category: 'Snacks & Sweets',
+      supplier: 'Mountain Sweet Makers',
+      stock: 50,
+      is_featured: false,
+      rating: 4.5,
+      reviews: 178
+    }
+  ], [])
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setProducts(sampleProducts)
+      setFeaturedProducts(sampleProducts.filter(p => p.is_featured))
+      setLoading(false)
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [sampleProducts])
+
+  const handleGetStarted = () => {
+    document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleAddToCart = (product: Product) => {
+    setCartCount(prev => prev + 1)
+    console.log('Adding to cart:', product.name)
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-saffron-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative mb-8">
+            <div className="w-20 h-20 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="absolute inset-0 w-20 h-20 border-4 border-orange-500 border-b-transparent rounded-full animate-spin mx-auto" style={{ animationDirection: 'reverse' }} />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Loading Amazing Products</h2>
+          <p className="text-gray-600">Preparing your shopping experience...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-saffron-100">
+      {/* World-Class Navigation */}
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-xl shadow-lg z-50 border-b border-amber-200/50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Premium Logo */}
+            <div className="flex items-center gap-3 group">
+              <div className="relative">
+                <div className="w-14 h-14 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 rounded-xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:scale-110">
+                  <Package className="w-8 h-8 text-white" />
+                </div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white">
+                  <Sparkles className="w-2 h-2 text-white" />
+                </div>
+              </div>
+              <div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Annapurna</span>
+                <p className="text-xs text-gray-500">Premium Quality</p>
+              </div>
+            </div>
+
+            {/* Enhanced Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              {[
+                { href: '#products', label: 'Products', icon: <Package className="w-4 h-4" /> },
+                { href: '#categories', label: 'Categories', icon: <Sparkles className="w-4 h-4" /> },
+                { href: '#suppliers', label: 'Suppliers', icon: <Shield className="w-4 h-4" /> },
+                { href: '#about', label: 'About', icon: <Heart className="w-4 h-4" /> }
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-2 text-gray-700 hover:text-amber-600 font-medium transition-all duration-300 hover:scale-105 group"
+                >
+                  <span className="group-hover:animate-bounce">{item.icon}</span>
+                  <span>{item.label}</span>
+                </a>
+              ))}
+            </div>
+
+            {/* Enhanced Right Actions */}
+            <div className="flex items-center gap-3">
+              <button className="p-3 text-gray-600 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all duration-300 hover:scale-110">
+                <Search className="w-5 h-5" />
+              </button>
+              
+              <button className="p-3 text-gray-600 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all duration-300 hover:scale-110 relative">
+                <ShoppingCart className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs rounded-full flex items-center justify-center font-bold animate-pulse">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+              
+              {user ? (
+                <div className="relative group">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer">
+                    <span className="text-white text-sm font-bold">
+                      {user.full_name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                </div>
+              ) : (
+                <button className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  Sign In
+                </button>
+              )}
+
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-3 text-gray-600 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all duration-300"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Three.js Hero Section */}
+      <ThreeHero
+        title="Annapurna Platform"
+        subtitle="Discover authentic Nepalese treasures from local farmers and artisans. Every product tells a story of tradition and quality."
+        ctaText="Explore Collection"
+        onCtaClick={handleGetStarted}
+      />
+
+      {/* Trust Indicators */}
+      <section className="py-8 bg-white/80 backdrop-blur-sm border-b border-amber-200/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-wrap items-center justify-center gap-8 text-sm">
+            {[
+              { icon: <Shield className="w-5 h-5" />, text: '100% Authentic' },
+              { icon: <Truck className="w-5 h-5" />, text: 'Free Shipping' },
+              { icon: <Heart className="w-5 h-5" />, text: 'Quality Assured' },
+              { icon: <Sparkles className="w-5 h-5" />, text: 'Premium Quality' }
+            ].map((item, index) => (
+              <div key={index} className="flex items-center gap-2 text-gray-600">
+                <span className="text-amber-600">{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced Stats Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Trusted by Thousands</h2>
+            <p className="text-xl text-gray-600">Join our growing community of satisfied customers</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { number: '500+', label: 'Local Suppliers', icon: <Package className="w-8 h-8" />, color: 'from-blue-500 to-blue-600' },
+              { number: '50+', label: 'Product Categories', icon: <Sparkles className="w-8 h-8" />, color: 'from-green-500 to-green-600' },
+              { number: '10K+', label: 'Happy Customers', icon: <Heart className="w-8 h-8" />, color: 'from-purple-500 to-purple-600' },
+              { number: '100%', label: 'Satisfaction', icon: <Shield className="w-8 h-8" />, color: 'from-orange-500 to-orange-600' },
+            ].map((stat, index) => (
+              <div key={index} className="text-center group">
+                <div className={`w-16 h-16 bg-gradient-to-r ${stat.color} rounded-full flex items-center justify-center mx-auto mb-4 text-white shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
+                  {stat.icon}
+                </div>
+                <div className="text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
+                <div className="text-gray-600">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section id="products-section" className="py-16 bg-gradient-to-br from-amber-50 to-orange-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Products</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Handpicked selection of our finest products from trusted local suppliers
+            </p>
+          </div>
+          
+          <ModernProductGrid 
+            products={featuredProducts} 
+            title="Featured Products"
+            showFilters={false}
+          />
+        </div>
+      </section>
+
+      {/* All Products */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Complete Collection</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Browse our complete collection of authentic Nepalese products
+            </p>
+          </div>
+          
+          <ModernProductGrid 
+            products={products} 
+            title="All Products"
+            showFilters={true}
+          />
+        </div>
+      </section>
+
+      {/* Enhanced Categories */}
+      <section id="categories" className="py-16 bg-gradient-to-br from-orange-50 to-amber-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+            <p className="text-xl text-gray-600">Find exactly what you're looking for</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { name: 'Organic Grains', icon: '🌾', count: 25, color: 'from-green-400 to-green-600' },
+              { name: 'Spices & Herbs', icon: '🌿', count: 18, color: 'from-orange-400 to-orange-600' },
+              { name: 'Dairy Products', icon: '🥛', count: 12, color: 'from-blue-400 to-blue-600' },
+              { name: 'Honey & Sweeteners', icon: '🍯', count: 8, color: 'from-yellow-400 to-yellow-600' },
+              { name: 'Tea & Beverages', icon: '🍵', count: 15, color: 'from-purple-400 to-purple-600' },
+              { name: 'Handicrafts', icon: '🎨', count: 20, color: 'from-pink-400 to-pink-600' },
+              { name: 'Health & Wellness', icon: '🌱', count: 10, color: 'from-indigo-400 to-indigo-600' },
+              { name: 'Snacks & Sweets', icon: '🍪', count: 14, color: 'from-red-400 to-red-600' },
+            ].map((category, index) => (
+              <div key={index} className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r opacity-20 rounded-xl blur-xl group-hover:opacity-30 transition-opacity" style={{ backgroundImage: `linear-gradient(to right, ${category.color.split(' ').join(', ')})` }} />
+                <div className="relative bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200">
+                  <div className="text-4xl mb-4 group-hover:animate-bounce">{category.icon}</div>
+                  <h3 className="font-semibold text-gray-900 mb-2">{category.name}</h3>
+                  <p className="text-gray-600 text-sm">{category.count} products</p>
+                  <div className={`mt-3 w-full h-1 bg-gradient-to-r ${category.color} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced Footer */}
+      <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+                  <Package className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold">Annapurna</h3>
+                  <p className="text-gray-400 text-sm">Premium Quality</p>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Connecting local farmers and artisans with customers worldwide through authentic Nepalese products.
+              </p>
+              <div className="flex gap-4 mt-6">
+                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-amber-600 transition-colors cursor-pointer">
+                  <Heart className="w-5 h-5" />
+                </div>
+                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-amber-600 transition-colors cursor-pointer">
+                  <Truck className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-6 text-lg">Quick Links</h4>
+              <ul className="space-y-3 text-gray-400">
+                {[
+                  { label: 'About Us', href: '#' },
+                  { label: 'How It Works', href: '#' },
+                  { label: 'Become a Supplier', href: '#' },
+                  { label: 'Contact', href: '#' },
+                  { label: 'FAQs', href: '#' },
+                  { label: 'Blog', href: '#' }
+                ].map((item) => (
+                  <li key={item.label}>
+                    <a href={item.href} className="hover:text-amber-400 transition-colors flex items-center gap-2">
+                      <Sparkles className="w-3 h-3" />
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-6 text-lg">Categories</h4>
+              <ul className="space-y-3 text-gray-400">
+                {[
+                  'Organic Grains',
+                  'Spices & Herbs',
+                  'Handicrafts',
+                  'Health & Wellness',
+                  'Dairy Products',
+                  'Tea & Beverages'
+                ].map((category) => (
+                  <li key={category}>
+                    <a href="#" className="hover:text-amber-400 transition-colors flex items-center gap-2">
+                      <Package className="w-3 h-3" />
+                      {category}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-6 text-lg">Connect With Us</h4>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-gray-400">
+                  <div className="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center">
+                    <Truck className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">support@annapurna.com</p>
+                    <p className="text-sm">24/7 Customer Support</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 text-gray-400">
+                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">+977 1-1234567</p>
+                    <p className="text-sm">Mon-Fri, 9AM-6PM</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 text-gray-400">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">Kathmandu, Nepal</p>
+                    <p className="text-sm">Visit our showroom</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-12 pt-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <p className="text-gray-400 text-sm">
+                &copy; 2024 Annapurna Platform. All rights reserved. Made with ❤️ in Nepal
+              </p>
+              <div className="flex gap-6 text-sm text-gray-400">
+                <a href="#" className="hover:text-amber-400 transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-amber-400 transition-colors">Terms of Service</a>
+                <a href="#" className="hover:text-amber-400 transition-colors">Cookie Policy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
