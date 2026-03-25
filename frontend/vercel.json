@@ -4,15 +4,21 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
-    "NEXT_PUBLIC_BACKEND_URL": "@backend-url"
+    "NEXT_PUBLIC_API_URL": "http://127.0.0.1:8000",
+    "NEXT_PUBLIC_SITE_URL": "http://localhost:3000",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://pwbbwpfycwgcckwqznuw.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3YmJ3cGZ5Y3dnY2Nrd3F6bnV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MTU3OTQsImV4cCI6MjA4OTk5MTc5NH0.pkmhAn65AhKmUm5fOxpPOpJvquH9W5V1yf9ppRsI_ZM",
+    "NEXT_PUBLIC_BACKEND_URL": "https://annapurna-platform.onrender.com",
+    "NEXT_PUBLIC_API_KEY": "tealkey"
   },
   "build": {
     "env": {
-      "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
-      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
-      "NEXT_PUBLIC_BACKEND_URL": "@backend-url"
+      "NEXT_PUBLIC_API_URL": "http://127.0.0.1:8000",
+      "NEXT_PUBLIC_SITE_URL": "http://localhost:3000",
+      "NEXT_PUBLIC_SUPABASE_URL": "https://pwbbwpfycwgcckwqznuw.supabase.co",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3YmJ3cGZ5Y3dnY2Nrd3F6bnV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MTU3OTQsImV4cCI6MjA4OTk5MTc5NH0.pkmhAn65AhKmUm5fOxpPOpJvquH9W5V1yf9ppRsI_ZM",
+      "NEXT_PUBLIC_BACKEND_URL": "https://annapurna-platform.onrender.com",
+      "NEXT_PUBLIC_API_KEY": "tealkey"
     }
   },
   "functions": {
