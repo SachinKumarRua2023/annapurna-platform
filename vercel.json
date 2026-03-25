@@ -22,7 +22,7 @@
     }
   },
   "functions": {
-    "app/**/*.ts": {
+    "frontend/app/**/*.ts": {
       "maxDuration": 30
     }
   },
