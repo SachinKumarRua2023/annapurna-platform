@@ -13,16 +13,16 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false)
-  const addToCart = useCartStore(state => state.addToCart)
+  const addItem = useCartStore(state => state.addItem)
   const items = useCartStore(state => state.items)
-  const updateQuantity = useCartStore(state => state.updateQuantity)
+  const updateItem = useCartStore(state => state.updateItem)
   
   const cartItem = items.find(item => item.id === product.id)
   const quantity = cartItem?.quantity || 0
 
   const handleAddToCart = () => {
     setIsAdding(true)
-    addToCart(product)
+    addItem(product.id)
     toast.success(`${product.name} added to cart!`, {
       icon: '🛒',
       duration: 2000
@@ -32,10 +32,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleUpdateQuantity = (newQuantity: number) => {
     if (newQuantity <= 0) {
-      updateQuantity(product.id, 0)
+      updateItem(product.id, 0)
       toast.success('Removed from cart')
     } else {
-      updateQuantity(product.id, newQuantity)
+      updateItem(product.id, newQuantity)
     }
   }
 
