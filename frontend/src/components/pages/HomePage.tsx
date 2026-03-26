@@ -1,3 +1,4 @@
+// HomePage component for Annapurna Platform
 'use client'
 
 import { Suspense, lazy } from 'react'
