@@ -91,14 +91,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         
         {/* Favicon and App Icons */}
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>" />
+        {/* <link rel="icon" href="/icon.svg" type="image/svg+xml" /> */}
+        {/* <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> */}
         <link rel="manifest" href="/manifest.json" />
         
         {/* Preload Critical Resources */}
-        <link rel="preload" href="/hero-bg.jpg" as="image" />
-        <link rel="preload" href="/three.min.js" as="script" />
+        {/* <link rel="preload" href="/hero-bg.jpg" as="image" /> */}
+        {/* <link rel="preload" href="/three.min.js" as="script" /> */}
         
         {/* Structured Data */}
         <script
