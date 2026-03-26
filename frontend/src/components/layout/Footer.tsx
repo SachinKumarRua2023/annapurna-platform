@@ -6,7 +6,9 @@ import {
   Mail, 
   MapPin, 
   Globe,
-  ExternalLink
+  ExternalLink,
+  Star,
+  User
 } from 'lucide-react'
 
 const footerLinks = {
@@ -35,7 +37,7 @@ export default function Footer() {
     <footer className="bg-stone-900 text-stone-300">
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company info */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-6">
@@ -76,6 +78,36 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 mt-0.5" />
                 <span>Yiwu, Zhejiang, China<br />India Operations: Multiple Cities</span>
               </div>
+            </div>
+          </div>
+
+          {/* Clients */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Our Clients</h4>
+            <div className="space-y-4">
+              {[
+                { name: 'Rajesh Kumar', company: 'Delhi Import Co.', location: 'India', rating: 5 },
+                { name: 'Sarah Chen', company: 'Chen Trading LLC', location: 'Dubai', rating: 5 },
+                { name: 'Michael Osei', company: 'Accra Wholesale', location: 'Ghana', rating: 5 },
+              ].map((client, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 bg-stone-800/50 rounded-lg hover:bg-stone-800 transition-colors">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1 mb-1">
+                      <span className="font-medium text-white text-sm truncate">{client.name}</span>
+                      <div className="flex">
+                        {[...Array(client.rating)].map((_, j) => (
+                          <Star key={j} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-xs text-stone-400 truncate">{client.company}</p>
+                    <p className="text-xs text-amber-500">{client.location}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
