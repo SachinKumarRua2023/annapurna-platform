@@ -13,16 +13,16 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false)
-  const addItem = useCartStore(state => state.addItem)
+  const addItem = useCartStore(state => state.addToCart)
   const items = useCartStore(state => state.items)
-  const updateItem = useCartStore(state => state.updateItem)
+  const updateItem = useCartStore(state => state.updateQuantity)
   
   const cartItem = items.find(item => item.id === product.id)
   const quantity = cartItem?.quantity || 0
 
   const handleAddToCart = () => {
     setIsAdding(true)
-    addItem(product.id)
+    addItem(product)
     toast.success(`${product.name} added to cart!`, {
       icon: '🛒',
       duration: 2000
