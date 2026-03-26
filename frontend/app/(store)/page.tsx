@@ -657,6 +657,60 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── QUICK SHOP ─────────────────────────────────────── */}
+      <section style={{ padding: '60px 24px', background: 'var(--ash)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
+            <h2 className="font-display" style={{ fontSize: 24, fontWeight: 700, color: 'var(--ink)' }}>
+              Quick Shop
+            </h2>
+            <a href="/products" style={{ color: 'var(--gold)', fontWeight: 600, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
+              All Products <ChevronRight size={16} />
+            </a>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+            {products.slice(0, 6).map((product) => (
+              <div key={product.id} style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid var(--mist)' }}>
+                <div style={{ 
+                  height: 120, 
+                  background: 'linear-gradient(135deg, var(--ash) 0%, var(--mist) 100%)', 
+                  borderRadius: 12, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  marginBottom: 12,
+                  fontSize: 40
+                }}>
+                  🌾
+                </div>
+                <div style={{ fontWeight: 600, color: 'var(--ink)', fontSize: 14, marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {product.name}
+                </div>
+                <div style={{ color: '#888', fontSize: 12, marginBottom: 8 }}>{product.category}</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontWeight: 700, color: 'var(--clay)', fontSize: 16 }}>₹{product.price}</span>
+                  <button 
+                    onClick={() => handleAddToCart(product)}
+                    style={{ 
+                      background: 'var(--gold)', 
+                      color: 'white', 
+                      border: 'none', 
+                      borderRadius: 8, 
+                      padding: '6px 12px', 
+                      fontSize: 12, 
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div className="divider-gold" />
 
       {/* ── CATEGORIES ─────────────────────────────────────── */}
