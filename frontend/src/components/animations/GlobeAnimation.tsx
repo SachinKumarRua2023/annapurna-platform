@@ -23,7 +23,13 @@ const tradeHubs = [
 ]
 
 // Trade routes between hubs with transport type
-const tradeRoutes = [
+type RouteType = 'ship' | 'plane' | 'truck'
+interface TradeRouteDef {
+  from: number
+  to: number
+  type: RouteType
+}
+const tradeRoutes: TradeRouteDef[] = [
   { from: 0, to: 1, type: 'ship' }, // China - India (Ship)
   { from: 0, to: 1, type: 'plane' }, // China - India (Plane)
   { from: 0, to: 2, type: 'ship' }, // China - USA (Ship)
@@ -188,7 +194,7 @@ function Atmosphere() {
 
 // Trade hub marker with flag
 function TradeHub({ position, color, name }: { position: THREE.Vector3; color: string; name: string }) {
-  const ref = useRef<THREE.Group>(null)
+  const ref = useRef<THREE.Mesh>(null)
   const ringRef = useRef<THREE.Mesh>(null)
   
   useFrame((state) => {
@@ -271,9 +277,7 @@ function TradeRoute({ from, to, type }: { from: THREE.Vector3; to: THREE.Vector3
   return (
     <>
       {/* Route line */}
-      <line geometry={geometry}>
-        <lineBasicMaterial color={routeColor} transparent opacity={0.3} linewidth={1} />
-      </line>
+      <primitive object={new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: routeColor, transparent: true, opacity: 0.3 }))} />
       
       {/* Animated vehicle */}
       <group ref={vehicleRef}>
