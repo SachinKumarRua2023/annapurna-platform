@@ -1,11 +1,13 @@
 'use client'
-// src/app/(auth)/login/page.tsx
+// Enhanced Login Page with Role Selection
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, User, Truck, Store } from 'lucide-react'
 import toast from 'react-hot-toast'
+
+type UserRole = 'customer' | 'supplier' | 'shipper'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -13,17 +15,45 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
+  const [selectedRole, setSelectedRole] = useState<UserRole>('customer')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       await login(email, password)
-      toast.success('Welcome back!')
-      router.push('/')
+      toast.success(`Welcome back! Logged in as ${selectedRole}`)
+      
+      // Redirect based on role
+      switch(selectedRole) {
+        case 'supplier':
+          router.push('/supplier/dashboard')
+          break
+        case 'shipper':
+          router.push('/shipper/dashboard')
+          break
+        default:
+          router.push('/')
+      }
     } catch (err: any) {
       toast.error(err.response?.data?.non_field_errors?.[0] || 'Login failed. Check credentials.')
     }
   }
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle()
+      toast.success('Welcome!')
+      router.push('/')
+    } catch (err: any) {
+      toast.error('Google login failed')
+    }
+  }
+
+  const roleOptions = [
+    { id: 'customer', label: 'Customer', icon: User, desc: 'Buy products' },
+    { id: 'supplier', label: 'Supplier', icon: Store, desc: 'Sell products' },
+    { id: 'shipper', label: 'Shipper', icon: Truck, desc: 'Deliver orders' },
+  ] as const
 
   return (
     <div className="min-h-screen flex bg-stone-50">
@@ -39,13 +69,27 @@ export default function LoginPage() {
             Annapurna
           </h2>
           <p className="text-green-200 text-lg max-w-xs">
-            Premium food products, sourced directly from India's heartland
+            Your trusted partner for global trade
           </p>
+          <div className="mt-8 flex gap-4 justify-center">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-amber-400">150+</div>
+              <div className="text-sm text-green-200">Countries</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-amber-400">50K+</div>
+              <div className="text-sm text-green-200">Products</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-amber-400">10K+</div>
+              <div className="text-sm text-green-200">Suppliers</div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Right panel */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-8 overflow-y-auto">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link href="/" className="inline-block mb-6 lg:hidden">
@@ -55,10 +99,37 @@ export default function LoginPage() {
             <p className="text-stone-500">Sign in to your account</p>
           </div>
 
+          {/* Role Selection */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-stone-700 mb-3">Select your role</label>
+            <div className="grid grid-cols-3 gap-2">
+              {roleOptions.map((role) => {
+                const Icon = role.icon
+                return (
+                  <button
+                    key={role.id}
+                    type="button"
+                    onClick={() => setSelectedRole(role.id)}
+                    className={`p-3 rounded-xl border-2 transition-all text-center ${
+                      selectedRole === role.id 
+                        ? 'border-amber-600 bg-amber-50' 
+                        : 'border-stone-200 hover:border-amber-300'
+                    }`}
+                  >
+                    <Icon className={`w-6 h-6 mx-auto mb-1 ${selectedRole === role.id ? 'text-amber-600' : 'text-stone-500'}`} />
+                    <div className="text-xs font-medium text-stone-700">{role.label}</div>
+                    <div className="text-[10px] text-stone-500">{role.desc}</div>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
           {/* Google OAuth */}
           <button
-            onClick={() => loginWithGoogle()}
-            className="w-full flex items-center justify-center gap-3 border-2 border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-medium py-3 rounded-xl transition-all mb-6"
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            className="w-full flex items-center justify-center gap-3 border-2 border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-medium py-3 rounded-xl transition-all mb-6 disabled:opacity-50"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -78,8 +149,14 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-stone-700 mb-1.5">Email</label>
-              <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                className="input" placeholder="you@example.com" />
+              <input 
+                type="email" 
+                required 
+                value={email} 
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border-2 border-stone-200 focus:border-amber-600 focus:outline-none transition-colors"
+                placeholder="you@example.com" 
+              />
             </div>
 
             <div>
@@ -88,24 +165,40 @@ export default function LoginPage() {
                 <Link href="/forgot-password" className="text-sm text-amber-700 hover:underline">Forgot?</Link>
               </div>
               <div className="relative">
-                <input type={showPw ? 'text' : 'password'} required value={password}
+                <input 
+                  type={showPw ? 'text' : 'password'} 
+                  required 
+                  value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="input pr-11" placeholder="••••••••" />
-                <button type="button" onClick={() => setShowPw(!showPw)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600">
+                  className="w-full px-4 py-3 rounded-xl border-2 border-stone-200 focus:border-amber-600 focus:outline-none transition-colors pr-11"
+                  placeholder="••••••••" 
+                />
+                <button 
+                  type="button" 
+                  onClick={() => setShowPw(!showPw)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+                >
                   {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
 
-            <button type="submit" disabled={isLoading} className="btn-primary w-full text-base py-3.5">
-              {isLoading ? 'Signing in...' : 'Sign In'}
+            <button 
+              type="submit" 
+              disabled={isLoading} 
+              className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold py-3.5 rounded-xl transition-all disabled:opacity-50"
+            >
+              {isLoading ? 'Signing in...' : `Sign In as ${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}`}
             </button>
           </form>
 
           <p className="text-center text-stone-500 text-sm mt-6">
             Don't have an account?{' '}
             <Link href="/register" className="text-amber-700 font-semibold hover:underline">Create one</Link>
+          </p>
+
+          <p className="text-center text-stone-400 text-xs mt-4">
+            By signing in, you agree to our Terms of Service and Privacy Policy
           </p>
         </div>
       </div>

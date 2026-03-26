@@ -511,6 +511,56 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Director Section */}
+      <section className="py-16 bg-gradient-to-br from-stone-900 via-stone-800 to-amber-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="order-2 md:order-1">
+              <p className="text-amber-400 text-sm font-medium mb-2">Leading Global Trade</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Meet Our Director
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                Under the visionary leadership of Vipin Tripathi, Yiwu Annapurna Imports and Exports Co. Ltd. 
+                has established itself as a trusted name in international trade, connecting businesses 
+                across China, India, and 150+ countries worldwide.
+              </p>
+              <div className="flex items-center gap-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-amber-400">15+</div>
+                  <div className="text-sm text-gray-400">Years Experience</div>
+                </div>
+                <div className="w-px h-12 bg-gray-700" />
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-amber-400">150+</div>
+                  <div className="text-sm text-gray-400">Countries Served</div>
+                </div>
+                <div className="w-px h-12 bg-gray-700" />
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-amber-400">50K+</div>
+                  <div className="text-sm text-gray-400">Products Shipped</div>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 md:order-2 flex justify-center">
+              <div className="relative">
+                <div className="w-64 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden border-4 border-amber-500/30 shadow-2xl">
+                  <img 
+                    src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=877,fit=crop/ALpP4OZwJvU6P404/whatsapp-image-2025-09-04-at-12-09-30-picsart-aiimageenhancer-AVLxL5jbvJfV4lVw.jpeg"
+                    alt="Vipin Tripathi - Director"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute -bottom-4 -right-4 bg-amber-600 text-white px-6 py-3 rounded-xl shadow-lg">
+                  <p className="font-bold text-lg">Vipin Tripathi</p>
+                  <p className="text-amber-200 text-sm">Director & CEO</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Technology Partner Section */}
       <section className="py-16 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-6 text-center">
