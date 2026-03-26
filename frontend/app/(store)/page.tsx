@@ -511,54 +511,102 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Director Section */}
-      <section className="py-16 bg-gradient-to-br from-stone-900 via-stone-800 to-amber-900">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="order-2 md:order-1">
-              <p className="text-amber-400 text-sm font-medium mb-2">Leading Global Trade</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Meet Our Director
+      {/* Director Section - Redesigned with Professional UI */}
+      <section className="py-20 bg-slate-950 relative overflow-hidden">
+        {/* Three.js Animated Border Canvas */}
+        <div className="absolute inset-0 pointer-events-none">
+          <iframe 
+            src="data:text/html,<body style='margin:0;overflow:hidden;background:transparent;'><canvas id=c style='position:fixed;inset:0;'></canvas><script>const c=document.getElementById('c'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const p=[];for(let i=0;i<50;i++)p.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2,dx:(Math.random()-.5)*.5,dy:(Math.random()-.5)*.5});function a(){x.clearRect(0,0,c.width,c.height);x.strokeStyle='rgba(245,158,11,0.15)';x.lineWidth=1;for(let i=0;i<p.length;i++){const pi=p[i];for(let j=i+1;j<p.length;j++){const pj=p[j],d=Math.hypot(pi.x-pj.x,pi.y-pj.y);if(d<150){x.beginPath();x.moveTo(pi.x,pi.y);x.lineTo(pj.x,pj.y);x.stroke()}}pi.x+=pi.dx;pi.y+=pi.dy;if(pi.x<0||pi.x>c.width)pi.dx*=-1;if(pi.y<0||pi.y>c.height)pi.dy*=-1;x.fillStyle='rgba(245,158,11,0.6)';x.beginPath();x.arc(pi.x,pi.y,pi.r,0,7);x.fill()}}setInterval(a,30)</script></body>"
+            className="w-full h-full"
+            style={{ border: 'none' }}
+          />
+        </div>
+        
+        {/* Top gradient border */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="order-2 lg:order-1">
+              {/* Label */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full mb-6">
+                <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                <span className="text-amber-400 text-sm font-medium tracking-wide uppercase">Leading Global Trade</span>
+              </div>
+              
+              {/* Heading */}
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Meet Our
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500">
+                  Director
+                </span>
               </h2>
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                Under the visionary leadership of Vipin Tripathi, Yiwu Annapurna Imports and Exports Co. Ltd. 
-                has established itself as a trusted name in international trade, connecting businesses 
-                across China, India, and 150+ countries worldwide.
+              
+              {/* Description */}
+              <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-lg">
+                Under the visionary leadership of <span className="text-amber-400 font-semibold">Vipin Tripathi</span>, 
+                Yiwu Annapurna Imports and Exports Co. Ltd. has established itself as a trusted name in international trade, 
+                connecting businesses across China, India, and 150+ countries worldwide.
               </p>
-              <div className="flex items-center gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-amber-400">15+</div>
-                  <div className="text-sm text-gray-400">Years Experience</div>
-                </div>
-                <div className="w-px h-12 bg-gray-700" />
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-amber-400">150+</div>
-                  <div className="text-sm text-gray-400">Countries Served</div>
-                </div>
-                <div className="w-px h-12 bg-gray-700" />
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-amber-400">50K+</div>
-                  <div className="text-sm text-gray-400">Products Shipped</div>
-                </div>
+              
+              {/* Stats - Redesigned */}
+              <div className="grid grid-cols-3 gap-6">
+                {[
+                  { number: '15+', label: 'Years Experience', color: 'from-blue-500 to-cyan-500' },
+                  { number: '150+', label: 'Countries Served', color: 'from-amber-500 to-orange-500' },
+                  { number: '50K+', label: 'Products Shipped', color: 'from-emerald-500 to-teal-500' },
+                ].map((stat, i) => (
+                  <div key={i} className="relative group">
+                    <div className={`text-3xl md:text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                      {stat.number}
+                    </div>
+                    <div className="text-slate-500 text-sm font-medium">{stat.label}</div>
+                    {/* Glow effect */}
+                    <div className={`absolute -inset-4 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-500 blur-xl`} />
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="order-1 md:order-2 flex justify-center">
+            
+            {/* Right - Image with animated border */}
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
               <div className="relative">
-                <div className="w-64 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden border-4 border-amber-500/30 shadow-2xl">
+                {/* Animated rotating border */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 rounded-2xl animate-spin-slow opacity-75 blur-sm" 
+                     style={{ animationDuration: '8s' }} />
+                
+                {/* Secondary rotating border (opposite direction) */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl animate-spin-slow opacity-50 blur-md" 
+                     style={{ animationDuration: '12s', animationDirection: 'reverse' }} />
+                
+                {/* Image container */}
+                <div className="relative w-72 h-96 md:w-80 md:h-[28rem] rounded-2xl overflow-hidden bg-slate-900 border border-slate-700">
                   <img 
                     src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=768,h=877,fit=crop/ALpP4OZwJvU6P404/whatsapp-image-2025-09-04-at-12-09-30-picsart-aiimageenhancer-AVLxL5jbvJfV4lVw.jpeg"
                     alt="Vipin Tripathi - Director"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
                 </div>
-                <div className="absolute -bottom-4 -right-4 bg-amber-600 text-white px-6 py-3 rounded-xl shadow-lg">
-                  <p className="font-bold text-lg">Vipin Tripathi</p>
-                  <p className="text-amber-200 text-sm">Director & CEO</p>
+                
+                {/* Name badge - floating */}
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 border border-amber-500/30 px-8 py-4 rounded-xl shadow-2xl shadow-amber-500/10">
+                  <p className="text-xl font-bold text-white text-center">Vipin Tripathi</p>
+                  <p className="text-amber-400 text-sm font-medium text-center">Director & CEO</p>
                 </div>
+                
+                {/* Decorative corner accents */}
+                <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-amber-500 rounded-tr-lg" />
+                <div className="absolute -bottom-10 -left-4 w-8 h-8 border-b-2 border-l-2 border-amber-500 rounded-bl-lg" />
               </div>
             </div>
           </div>
         </div>
+        
+        {/* Bottom gradient border */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
       </section>
 
       {/* Technology Partner Section */}
