@@ -34,8 +34,9 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) { router.push('/login'); return }
+    if (!product) return
     setAdding(true)
-    await addItem(product!.id, quantity)
+    await addItem(product.id, quantity, product)
     setAdding(false)
   }
 
@@ -46,7 +47,7 @@ export default function ProductDetailPage() {
         <div className="skeleton aspect-square rounded-2xl" />
         <div className="space-y-4">
           {[40, 60, 30, 80, 50].map((w, i) => (
-            <div key={i} className={`skeleton h-6 rounded w-${w === 80 ? 'full' : `${w}/100`}`} />
+            <div key={i} className="skeleton h-6 rounded" style={{ width: `${w}%` }} />
           ))}
         </div>
       </div>
@@ -62,7 +63,6 @@ export default function ProductDetailPage() {
     <>
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 py-10">
-        {/* Breadcrumb */}
         <nav className="text-sm text-stone-500 mb-8">
           <a href="/" className="hover:text-amber-700">Home</a>
           <span className="mx-2">/</span>
@@ -72,7 +72,6 @@ export default function ProductDetailPage() {
         </nav>
 
         <div className="grid md:grid-cols-2 gap-12 mb-16">
-          {/* Image gallery */}
           <div className="space-y-4">
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-stone-100">
               {primarySrc ? (
@@ -101,12 +100,10 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          {/* Product info */}
           <div>
             <p className="text-amber-700 font-medium text-sm mb-1">{product.category_name}</p>
             <h1 className="text-3xl font-bold text-stone-900 mb-3 leading-snug">{product.name}</h1>
 
-            {/* Rating */}
             {product.avg_rating > 0 && (
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex">
@@ -119,7 +116,6 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
               <span className="text-4xl font-bold text-stone-900">₹{Number(product.price).toFixed(0)}</span>
               <span className="text-stone-400">/ {product.unit}</span>
@@ -128,12 +124,10 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Short description */}
             {product.short_desc && (
               <p className="text-stone-600 mb-6 leading-relaxed">{product.short_desc}</p>
             )}
 
-            {/* Stock status */}
             <div className="flex items-center gap-2 mb-6">
               <div className={`w-2 h-2 rounded-full ${product.stock > 0 ? 'bg-green-500' : 'bg-red-400'}`} />
               <span className={`text-sm font-medium ${product.stock > 0 ? 'text-green-700' : 'text-red-500'}`}>
@@ -141,7 +135,6 @@ export default function ProductDetailPage() {
               </span>
             </div>
 
-            {/* Quantity + Add to cart */}
             {product.stock > 0 && (
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center border-2 border-stone-200 rounded-xl overflow-hidden">
@@ -166,7 +159,6 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Trust badges */}
             <div className="grid grid-cols-3 gap-3 pt-4 border-t border-stone-100">
               {[
                 { icon: Truck,   label: 'Free delivery above ₹500' },
@@ -182,7 +174,6 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Tabs: Description / Reviews */}
         <div className="border-t border-stone-200">
           <div className="flex gap-8 pt-1">
             {(['desc', 'reviews'] as const).map(t => (

@@ -1,9 +1,10 @@
 'use client'
 // Enhanced Login Page with Role Selection
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
+import { useCartStore } from '@/store/cartStore'
 import { Eye, EyeOff, User, Truck, Store } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -11,7 +12,10 @@ type UserRole = 'customer' | 'supplier' | 'shipper'
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('redirect')
   const { login, loginWithGoogle, isLoading } = useAuthStore()
+  const addItem = useCartStore(state => state.addItem)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
@@ -21,18 +25,42 @@ export default function LoginPage() {
     e.preventDefault()
     try {
       await login(email, password)
-      toast.success(`Welcome back! Logged in as ${selectedRole}`)
       
-      // Redirect based on role
-      switch(selectedRole) {
-        case 'supplier':
-          router.push('/supplier/dashboard')
-          break
-        case 'shipper':
-          router.push('/shipper/dashboard')
-          break
-        default:
-          router.push('/')
+      // Get the user role from auth store after login
+      const { user } = useAuthStore.getState()
+      const userRole = user?.role
+      
+      toast.success(`Welcome back! Logged in as ${userRole}`)
+      
+      // Check for pending cart item
+      const pendingItem = localStorage.getItem('pendingCartItem')
+      if (pendingItem) {
+        try {
+          const product = JSON.parse(pendingItem)
+          addItem(product.id, 1, product)
+          localStorage.removeItem('pendingCartItem')
+          toast.success(`${product.name} added to cart!`)
+          router.push('/cart')
+          return
+        } catch (e) {
+          localStorage.removeItem('pendingCartItem')
+        }
+      }
+      
+      // Redirect based on redirectUrl or user role
+      if (redirectUrl) {
+        router.push(redirectUrl)
+      } else {
+        switch(userRole) {
+          case 'supplier':
+            router.push('/supplier/dashboard')
+            break
+          case 'delivery':
+            router.push('/shipper/dashboard')
+            break
+          default:
+            router.push('/')
+        }
       }
     } catch (err: any) {
       toast.error(err.response?.data?.non_field_errors?.[0] || 'Login failed. Check credentials.')

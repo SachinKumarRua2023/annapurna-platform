@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { ShoppingCart, Star, Check, Plus, Minus } from 'lucide-react'
 import { Product } from '@/data/products'
 import { useCartStore } from '@/store/cartStore'
+import { useAuthStore } from '@/store/authStore'
 import toast from 'react-hot-toast'
 
 interface ProductCardProps {
@@ -13,16 +15,23 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false)
-  const addItem = useCartStore(state => state.addToCart)
+  const router = useRouter()
+  const addToCart = useCartStore(state => state.addItem)
   const items = useCartStore(state => state.items)
-  const updateItem = useCartStore(state => state.updateQuantity)
+  const updateQuantity = useCartStore(state => state.updateItem)
+  const { isAuthenticated } = useAuthStore()
   
-  const cartItem = items.find(item => item.id === product.id)
+  const cartItem = items.find(item => item.product.id === product.id)
   const quantity = cartItem?.quantity || 0
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      localStorage.setItem('pendingCartItem', JSON.stringify(product))
+      router.push('/login?redirect=' + encodeURIComponent(window.location.pathname))
+      return
+    }
     setIsAdding(true)
-    addItem(product)
+    addToCart(Number(product.id), 1, product as any)
     toast.success(`${product.name} added to cart!`, {
       icon: '🛒',
       duration: 2000
@@ -31,11 +40,12 @@ export default function ProductCard({ product }: ProductCardProps) {
   }
 
   const handleUpdateQuantity = (newQuantity: number) => {
+    if (!cartItem) return
     if (newQuantity <= 0) {
-      updateItem(product.id, 0)
+      useCartStore.getState().removeItem(cartItem.id)
       toast.success('Removed from cart')
     } else {
-      updateItem(product.id, newQuantity)
+      updateQuantity(cartItem.id, newQuantity)
     }
   }
 

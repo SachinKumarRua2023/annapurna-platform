@@ -150,7 +150,7 @@ export default function FeaturedSection() {
       router.push('/login'); 
       return 
     }
-    await addItem(product.id)
+    await addItem(product.id, 1, product)
   }
 
   const handleWishlist = async (e: React.MouseEvent, productId: string) => {

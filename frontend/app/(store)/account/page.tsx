@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/store/authStore'
 import Navbar from '@/components/layout/Navbar'
@@ -15,13 +16,56 @@ import {
   LogOut,
   CheckCircle,
   Clock,
-  Truck
+  Truck,
+  Save,
+  X,
+  Camera,
+  Lock
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function AccountPage() {
-  const { user, logout } = useAuthStore()
-  const [activeTab, setActiveTab] = useState<'profile' | 'orders' | 'addresses' | 'payments'>('profile')
+  const router = useRouter()
+  const { user, logout, isAuthenticated } = useAuthStore()
+  const [activeTab, setActiveTab] = useState<'profile' | 'orders' | 'addresses' | 'payments' | 'security'>('profile')
+  const [isEditing, setIsEditing] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Profile form state
+  const [profileForm, setProfileForm] = useState({
+    full_name: '',
+    email: '',
+    phone: '',
+    date_of_birth: '',
+    avatar: null as File | null
+  })
+
+  useEffect(() => {
+    if (user) {
+      setProfileForm({
+        full_name: user.full_name || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        date_of_birth: '1990-01-15',
+        avatar: null
+      })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login?redirect=/account')
+    }
+  }, [isAuthenticated, router])
+
+  const handleProfileUpdate = async () => {
+    setIsLoading(true)
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    toast.success('Profile updated successfully!')
+    setIsEditing(false)
+    setIsLoading(false)
+  }
 
   const [addresses, setAddresses] = useState([
     { id: '1', type: 'Home', address: '123 Main Street, Delhi, India - 110001', default: true },
@@ -137,46 +181,94 @@ export default function AccountPage() {
                 <div className="bg-white rounded-xl shadow-sm p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-semibold">Personal Information</h2>
-                    <button className="flex items-center gap-2 text-amber-600 hover:text-amber-700">
-                      <Edit2 className="w-4 h-4" />
-                      Edit
-                    </button>
+                    <div className="flex gap-2">
+                      {isEditing ? (
+                        <>
+                          <button 
+                            onClick={() => setIsEditing(false)}
+                            className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                          >
+                            <X className="w-4 h-4" />
+                            Cancel
+                          </button>
+                          <button 
+                            onClick={handleProfileUpdate}
+                            disabled={isLoading}
+                            className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 disabled:opacity-50"
+                          >
+                            <Save className="w-4 h-4" />
+                            {isLoading ? 'Saving...' : 'Save'}
+                          </button>
+                        </>
+                      ) : (
+                        <button 
+                          onClick={() => setIsEditing(true)}
+                          className="flex items-center gap-2 text-amber-600 hover:text-amber-700"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                          Edit
+                        </button>
+                      )}
+                    </div>
                   </div>
+                  
+                  {/* Avatar */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="relative">
+                      <div className="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center">
+                        <User className="w-10 h-10 text-amber-600" />
+                      </div>
+                      {isEditing && (
+                        <button className="absolute bottom-0 right-0 w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white">
+                          <Camera className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">Profile Photo</p>
+                      <p className="text-sm text-gray-500">This will be displayed on your profile</p>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
                       <input 
                         type="text" 
-                        defaultValue={user?.full_name || ''}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50"
-                        readOnly
+                        value={profileForm.full_name}
+                        onChange={(e) => setProfileForm({...profileForm, full_name: e.target.value})}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        readOnly={!isEditing}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                       <input 
                         type="email" 
-                        defaultValue={user?.email || ''}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50"
-                        readOnly
+                        value={profileForm.email}
+                        onChange={(e) => setProfileForm({...profileForm, email: e.target.value})}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        readOnly={!isEditing}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                       <input 
                         type="tel" 
-                        defaultValue="+91 98765 43210"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50"
-                        readOnly
+                        value={profileForm.phone}
+                        onChange={(e) => setProfileForm({...profileForm, phone: e.target.value})}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        readOnly={!isEditing}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
                       <input 
-                        type="text" 
-                        defaultValue="15 Jan 1990"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50"
-                        readOnly
+                        type="date" 
+                        value={profileForm.date_of_birth}
+                        onChange={(e) => setProfileForm({...profileForm, date_of_birth: e.target.value})}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        readOnly={!isEditing}
                       />
                     </div>
                   </div>

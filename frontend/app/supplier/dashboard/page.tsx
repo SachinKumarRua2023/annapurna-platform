@@ -95,7 +95,7 @@ export default function SupplierDashboard() {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Supplier Dashboard</h1>
-                <p className="text-xs text-gray-500">{user?.company_name || 'Your Business'}</p>
+                <p className="text-xs text-gray-500">{user?.full_name || 'Your Business'}</p>
               </div>
             </div>
             <div className="flex items-center gap-4">

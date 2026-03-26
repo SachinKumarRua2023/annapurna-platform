@@ -1,20 +1,38 @@
-// World-Class Type Definitions - Google CEO Level Design
+// World-Class Type Definitions
+
+export interface ProductImage {
+  id: number
+  image: string
+  alt_text?: string
+}
+
+export interface ProductReview {
+  id: number
+  user_name: string
+  rating: number
+  title?: string
+  body: string
+  is_verified?: boolean
+}
 
 export interface Product {
-  id: string
+  id: number
+  slug: string
   name: string
-  price: number
-  originalPrice?: number
-  description: string
-  category: string
-  supplier: string
+  description?: string
+  short_desc?: string
+  price: string | number
+  compare_price?: string | number
+  unit: string
   stock: number
-  is_featured: boolean
-  rating?: number
-  reviews?: number
-  discount?: number
-  badge?: string
-  image?: string
+  discount_percent: number
+  avg_rating: number
+  review_count: number
+  category_name?: string
+  primary_image?: string
+  images?: ProductImage[]
+  reviews?: ProductReview[]
+  is_featured?: boolean
   created_at?: string
   updated_at?: string
 }
@@ -48,16 +66,9 @@ export interface Supplier {
   image?: string
 }
 
-export interface CartItem {
-  id: string
-  product: Product
-  quantity: number
-  added_at?: string
-}
-
 export interface Order {
   id: string
-  items: CartItem[]
+  items: { id: number; product: Product; quantity: number; subtotal: number }[]
   total: number
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
   shipping_address?: Address
@@ -125,7 +136,6 @@ export interface GoogleUser {
   verified: boolean
 }
 
-// Component Props Types
 export interface ProductCardProps {
   product: Product
   onAddToCart?: (product: Product) => void
@@ -169,7 +179,6 @@ export interface RecentlyViewed {
   viewed_at: string
 }
 
-// SEO Types
 export interface SEOData {
   title: string
   description: string
@@ -183,7 +192,6 @@ export interface BreadcrumbItem {
   url?: string
 }
 
-// Analytics Types
 export interface AnalyticsEvent {
   event: string
   properties?: Record<string, any>

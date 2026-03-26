@@ -1,5 +1,5 @@
 {
-  "name": "Annapurna Platform - Premium Nepalese Products",
+  "name": "Annapurna Platform - Premium Chinese Products",
   "short_name": "Annapurna",
   "description": "Discover authentic Nepalese products from local farmers and artisans",
   "start_url": "/",
@@ -20,3 +20,5 @@
   ],
   "prefer_related_applications": false
 }
+
+
