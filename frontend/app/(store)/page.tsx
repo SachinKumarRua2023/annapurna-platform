@@ -1,5 +1,5 @@
 'use client'
-// World-Class Homepage - Redesigned Premium UI
+// World-Class Homepage - Redesigned Premium UI - Updated with cart & profile features
 import { useState, useEffect, useMemo, Suspense, lazy } from 'react'
 import { ShoppingCart, User, Search, Menu, X, Star, TrendingUp, Package, Sparkles, Shield, Truck, Heart, Globe, ArrowRight, MapPin, Phone, Mail, ExternalLink, ChevronRight } from 'lucide-react'
 import ThreeHero from '@/components/ui/ThreeHero'
