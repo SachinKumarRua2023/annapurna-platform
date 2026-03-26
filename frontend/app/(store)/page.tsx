@@ -6,6 +6,9 @@ import ThreeHero from '@/components/ui/ThreeHero'
 import ModernProductGrid from '@/components/ui/ModernProductGrid'
 import Footer from '@/components/layout/Footer'
 import { useAuthStore } from '@/store/authStore'
+import { useCartStore } from '@/store/cartStore'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const GlobeAnimation = lazy(() => import('@/components/animations/GlobeAnimation'))
 
@@ -290,12 +293,14 @@ const GLOBAL_CSS = `
 `
 
 export default function HomePage() {
-  const { user } = useAuthStore()
+  const { user, logout, isAuthenticated } = useAuthStore()
+  const { itemCount: cartCount } = useCartStore()
+  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [cartCount, setCartCount] = useState(3)
+  const [profileOpen, setProfileOpen] = useState(false)
 
   const sampleProducts = useMemo(() => [
     {
@@ -362,8 +367,22 @@ export default function HomePage() {
   }
 
   const handleAddToCart = (product: Product) => {
-    setCartCount(prev => prev + 1)
-    console.log('Adding to cart:', product.name)
+    if (!isAuthenticated) {
+      router.push('/login?redirect=/')
+      return
+    }
+    // Add to cart using store
+    const { addItem } = useCartStore.getState()
+    addItem(Number(product.id), 1, product as any)
+  }
+
+  const handleCartClick = () => {
+    router.push('/cart')
+  }
+
+  const handleSignOut = () => {
+    logout()
+    router.push('/')
   }
 
   if (loading) {
@@ -391,7 +410,7 @@ export default function HomePage() {
   }
 
   const navLinks = [
-    { href: '#products', label: 'Products' },
+    { href: '/products', label: 'Products' },
     { href: '#categories', label: 'Categories' },
     { href: '#suppliers', label: 'Suppliers' },
     { href: '#about', label: 'About' },
@@ -485,7 +504,8 @@ export default function HomePage() {
                 <Search size={18} />
               </button>
 
-              <button style={{ padding: '10px', borderRadius: 10, border: 'none', background: 'transparent', cursor: 'pointer', color: '#555', position: 'relative' }}
+              <button onClick={handleCartClick}
+                style={{ padding: '10px', borderRadius: 10, border: 'none', background: 'transparent', cursor: 'pointer', color: '#555', position: 'relative' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'var(--ash)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                 <ShoppingCart size={18} />
@@ -502,18 +522,43 @@ export default function HomePage() {
               </button>
 
               {user ? (
-                <div style={{
-                  width: 40, height: 40, borderRadius: 12,
-                  background: 'linear-gradient(135deg, var(--gold), var(--clay))',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: 'white', fontWeight: 700, fontSize: 16,
-                }}>
-                  {user.full_name.charAt(0).toUpperCase()}
+                <div style={{ position: 'relative' }}>
+                  <div onClick={() => setProfileOpen(!profileOpen)}
+                    style={{
+                      width: 40, height: 40, borderRadius: 12,
+                      background: 'linear-gradient(135deg, var(--gold), var(--clay))',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', color: 'white', fontWeight: 700, fontSize: 16,
+                    }}>
+                    {user.full_name?.charAt(0).toUpperCase()}
+                  </div>
+                  {profileOpen && (
+                    <div style={{
+                      position: 'absolute', top: 48, right: 0,
+                      background: 'white', borderRadius: 12,
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                      padding: '8px 0', minWidth: 160, zIndex: 100
+                    }}>
+                      <Link href="/account" style={{ display: 'block', padding: '10px 16px', color: '#333', textDecoration: 'none', fontSize: 14 }}>
+                        My Account
+                      </Link>
+                      <Link href="/orders" style={{ display: 'block', padding: '10px 16px', color: '#333', textDecoration: 'none', fontSize: 14 }}>
+                        My Orders
+                      </Link>
+                      <div style={{ borderTop: '1px solid #eee', margin: '8px 0' }} />
+                      <button onClick={handleSignOut}
+                        style={{ display: 'block', width: '100%', padding: '10px 16px', color: '#ef4444', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: 14 }}>
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
                 </div>
               ) : (
-                <button className="btn-gold" style={{ fontSize: 13, padding: '10px 20px' }}>
-                  <User size={14} /> Sign In
-                </button>
+                <Link href="/login">
+                  <button className="btn-gold" style={{ fontSize: 13, padding: '10px 20px' }}>
+                    <User size={14} /> Sign In
+                  </button>
+                </Link>
               )}
 
               <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

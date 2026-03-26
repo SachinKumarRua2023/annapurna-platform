@@ -6,8 +6,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ProductCard from '@/components/product/ProductCard'
 import api from '@/lib/api'
-import type { Product } from '@/types'
-import { products as demoProducts } from '@/data/products'
+import { products as demoProducts, Product } from '@/data/products'
 import { SlidersHorizontal, ChevronDown, X } from 'lucide-react'
 
 const SORT_OPTIONS = [
@@ -53,7 +52,7 @@ export default function ProductsContent() {
     } catch (err: any) {
       console.log('API failed, using demo products:', err)
       // Use demo products when API is unavailable
-      setProducts(demoProducts as Product[])
+      setProducts(demoProducts)
       setTotal(demoProducts.length)
     } finally {
       setLoading(false)
