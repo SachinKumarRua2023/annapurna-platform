@@ -1,8 +1,12 @@
 'use client'
 // src/components/ui/ModernProductGrid.tsx
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, Filter, Grid, List, ShoppingCart, Heart, Star, TrendingUp, Sparkles } from 'lucide-react'
 import ThreeProductCard from './ThreeProductCard'
+import { useCartStore } from '@/store/cartStore'
+import { useAuthStore } from '@/store/authStore'
+import toast from 'react-hot-toast'
 
 interface Product {
   id: string
@@ -80,14 +84,22 @@ export default function ModernProductGrid({
     return filtered
   }, [products, searchTerm, selectedCategory, priceRange, sortBy])
 
+  const { isAuthenticated } = useAuthStore()
+  const { addItem } = useCartStore()
+  const router = useRouter()
+
   const handleAddToCart = (product: Product) => {
-    // Add to cart logic
-    console.log('Adding to cart:', product.name)
+    if (!isAuthenticated) {
+      router.push('/login?redirect=/')
+      return
+    }
+    // Add to cart using store
+    addItem(Number(product.id), 1, product as any)
+    toast.success(`${product.name} added to cart!`)
   }
 
   const handleViewDetails = (product: Product) => {
-    // View product details logic
-    console.log('Viewing details:', product.name)
+    router.push(`/products/${product.id}`)
   }
 
   return (

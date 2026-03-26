@@ -681,6 +681,63 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── SUPPLIERS SECTION ───────────────────────────── */}
+      <section id="suppliers" style={{ padding: '80px 24px', background: 'var(--cream)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div className="section-label"><Package size={12} /> Verified Partners</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(26px,3.5vw,40px)', fontWeight: 700, color: 'var(--ink)' }}>
+              Our Suppliers
+            </h2>
+            <p style={{ color: '#666', fontSize: 16, marginTop: 12 }}>Trusted suppliers from Nepal and across the globe</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
+            {[
+              { name: 'Himalayan Organic Farms', location: 'Kathmandu, Nepal', products: 'Organic Grains & Rice', rating: 4.9, orders: '12K+' },
+              { name: 'Kathmandu Spice Traders', location: 'Kathmandu, Nepal', products: 'Spices & Herbs', rating: 4.8, orders: '8K+' },
+              { name: 'Everest Honey Collective', location: 'Pokhara, Nepal', products: 'Honey & Sweeteners', rating: 4.9, orders: '5K+' },
+              { name: 'Traditional Artisans Guild', location: 'Bhaktapur, Nepal', products: 'Handicrafts & Textiles', rating: 4.7, orders: '3K+' },
+              { name: 'Valley Tea Estates', location: 'Ilam, Nepal', products: 'Tea & Beverages', rating: 4.8, orders: '10K+' },
+              { name: 'Mountain Dairy Co-op', location: 'Dolakha, Nepal', products: 'Dairy Products', rating: 4.6, orders: '6K+' },
+            ].map((supplier, i) => (
+              <div key={i} className="card-lift" style={{ background: 'white', borderRadius: 20, padding: 28, border: '1px solid var(--mist)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                  <div style={{ 
+                    width: 56, height: 56, borderRadius: 16,
+                    background: 'linear-gradient(135deg, var(--gold), var(--clay))',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: 'white', fontWeight: 700, fontSize: 22,
+                    fontFamily: 'Playfair Display, serif'
+                  }}>
+                    {supplier.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 600, color: 'var(--ink)', fontSize: 16 }}>{supplier.name}</div>
+                    <div style={{ fontSize: 13, color: '#888', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <MapPin size={12} /> {supplier.location}
+                    </div>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 14, color: '#666', marginBottom: 8 }}>{supplier.products}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#F59E0B', fontSize: 14, fontWeight: 600 }}>
+                      <Star size={14} fill="#F59E0B" /> {supplier.rating}
+                    </span>
+                    <span style={{ color: '#888', fontSize: 13 }}>{supplier.orders} orders</span>
+                  </div>
+                </div>
+                <button className="btn-ghost" style={{ width: '100%', fontSize: 13 }}>
+                  View Products
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="divider-gold" />
+
       {/* ── GLOBE SECTION ──────────────────────────────────── */}
       <section className="globe-section" style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
