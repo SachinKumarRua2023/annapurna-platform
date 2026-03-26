@@ -1,5 +1,5 @@
 'use client'
-// Enhanced Login Page with Role Selection
+// Enhanced Login Page with Role Selection - Fixed Suspense boundary for Next.js 14
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
