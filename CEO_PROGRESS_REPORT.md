@@ -6,7 +6,269 @@
 
 ---
 
-## 📊 Executive Summary
+## � FILE STRUCTURE & RESPONSIBILITY MATRIX
+
+### **FRONTEND - Active Files (Production Ready)**
+
+| File | Purpose | Importance | Notes |
+|------|---------|------------|-------|
+| `frontend/app/layout.tsx` | Root layout with global metadata | **CRITICAL** | SEO, fonts, loading states |
+| `frontend/app/(store)/page.tsx` | Homepage with globe animation | **CRITICAL** | Main landing page |
+| `frontend/app/(store)/layout.tsx` | Store layout with SEO | **HIGH** | Store-specific metadata |
+| `frontend/app/(store)/account/page.tsx` | User profile page | **HIGH** | Profile, orders, addresses, security tabs |
+| `frontend/app/(store)/cart/page.tsx` | Shopping cart | **HIGH** | Cart management, checkout link |
+| `frontend/app/(store)/checkout/page.tsx` | Checkout flow | **HIGH** | Multi-step: shipping, payment, review |
+| `frontend/app/(store)/products/page.tsx` | Product listing | **HIGH** | SSR + CSR product grid |
+| `frontend/app/(store)/products/[slug]/page.tsx` | Product detail | **HIGH** | Single product view, add to cart |
+| `frontend/app/(auth)/login/page.tsx` | Login page | **CRITICAL** | Google OAuth, redirect handling |
+| `frontend/app/(auth)/layout.tsx` | Auth layout | **MEDIUM** | Auth page wrapper |
+| `frontend/app/supplier/dashboard/page.tsx` | Supplier dashboard | **HIGH** | Supplier portal, product management |
+| `frontend/app/shipper/dashboard/page.tsx` | Delivery dashboard | **MEDIUM** | Delivery partner interface |
+
+### **FRONTEND - State Management**
+
+| File | Purpose | Importance | Notes |
+|------|---------|------------|-------|
+| `frontend/src/store/cartStore.ts` | Cart state (ACTIVE) | **CRITICAL** | **USE THIS FILE** - Zustand cart with addItem, updateItem, removeItem |
+| `frontend/store/cartStore.ts` | Cart state (DUPLICATE) | **IGNORE** | Duplicate file, NOT USED by app |
+| `frontend/src/store/authStore.ts` | Authentication | **CRITICAL** | Supabase auth, JWT, user state |
+
+### **FRONTEND - Components**
+
+| File | Purpose | Importance | Notes |
+|------|---------|------------|-------|
+| `frontend/src/components/layout/Navbar.tsx` | Navigation | **CRITICAL** | Cart badge, search, user menu |
+| `frontend/src/components/layout/Footer.tsx` | Footer | **MEDIUM** | Links, contact info |
+| `frontend/src/components/home/FeaturedSection.tsx` | Featured products | **HIGH** | Product showcase with add to cart |
+| `frontend/src/components/product/ProductCard.tsx` | Product card | **HIGH** | Reusable product component |
+| `frontend/src/components/ui/ModernProductGrid.tsx` | Product grid | **MEDIUM** | Grid layout with filters |
+| `frontend/src/components/ui/ThreeProductCard.tsx` | 3D product card | **MEDIUM** | 3D hover effects |
+| `frontend/src/components/animations/GlobeAnimation.tsx` | 3D Globe | **CRITICAL** | Three.js globe, trade routes |
+
+### **FRONTEND - Types & Config**
+
+| File | Purpose | Importance | Notes |
+|------|---------|------------|-------|
+| `frontend/src/types/index.ts` | TypeScript types | **CRITICAL** | All interfaces, types, enums |
+| `frontend/src/lib/api.ts` | API client | **HIGH** | Axios configuration, interceptors |
+| `frontend/src/lib/supabase.ts` | Supabase client | **HIGH** | Auth, database, storage |
+
+### **BACKEND**
+
+| File | Purpose | Importance | Notes |
+|------|---------|------------|-------|
+| `backend/annapurna/settings.py` | Django settings | **CRITICAL** | Database, auth, middleware |
+| `backend/accounts/models.py` | User models | **CRITICAL** | Custom user, profiles |
+| `backend/products/models.py` | Product models | **CRITICAL** | Product, Category, Supplier |
+| `backend/orders/models.py` | Order models | **CRITICAL** | Order, OrderItem, Cart |
+| `backend/pricing/models.py` | Pricing models | **MEDIUM** | Dynamic pricing rules |
+
+---
+
+## ⚠️ FILES TO IGNORE (Duplicates & Legacy)
+
+### **DUPLICATE CART STORE - DO NOT USE**
+```
+❌ IGNORE: frontend/store/cartStore.ts (root level)
+✅ USE: frontend/src/store/cartStore.ts (src folder)
+```
+**Reason**: The project uses `@/*` path alias which maps to `frontend/src/*`. The file at root `frontend/store/` is a duplicate and not imported anywhere.
+
+### **LEGACY FILES - MAY BE REMOVED**
+```
+❌ IGNORE: frontend/src/data/products.ts - Using API data now
+❌ IGNORE: Any .backup, .old, .temp files
+```
+
+---
+
+## 🌐 SEO STRATEGY: RANK #1 FOR IMPORT/EXPORT KEYWORDS
+
+### **Primary Target Keywords**
+1. **"Import from China to India"** - 12,000 monthly searches
+2. **"China import export"** - 8,500 monthly searches  
+3. **"China import agent"** - 6,200 monthly searches
+4. **"Import from China"** - 5,800 monthly searches
+5. **"China wholesale India"** - 4,500 monthly searches
+
+### **How We Will Achieve Top 3 Ranking**
+
+#### 1. **Content Strategy (Blog + Landing Pages)**
+```
+Create 50+ SEO articles targeting long-tail keywords:
+- "How to import from China to India [2024 Guide]"
+- "Best China import agents in Mumbai/Delhi/Bangalore"
+- "China to India shipping costs and timeline"
+- "Yiwu market guide for Indian buyers"
+- "Import duty calculation China to India"
+- "GST on imported goods from China"
+- "Customs clearance process India imports"
+- "Best products to import from China to India"
+- "China wholesale markets for Indian traders"
+- "Import license requirements India"
+```
+
+#### 2. **Technical SEO Implementation**
+
+**A. Sitemap.xml** (Already Implemented)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://annapurna-ecommerce.vercel.app/</loc>
+    <lastmod>2024-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://annapurna-ecommerce.vercel.app/products</loc>
+    <lastmod>2024-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://annapurna-ecommerce.vercel.app/services</loc>
+    <lastmod>2024-03-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
+```
+
+**B. Structured Data (Schema.org)**
+```typescript
+// Product Schema for Rich Snippets
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Premium Basmati Rice from China",
+  "image": "https://...",
+  "description": "Direct import from Yiwu to India",
+  "sku": "BAS-001",
+  "brand": {
+    "@type": "Brand",
+    "name": "Annapurna World Trade"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://...",
+    "price": "89.99",
+    "priceCurrency": "INR",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "Annapurna World Trade"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "124"
+  }
+}
+
+// Organization Schema
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Annapurna World Trade",
+  "url": "https://annapurna-ecommerce.vercel.app",
+  "logo": "https://...",
+  "sameAs": [
+    "https://www.facebook.com/annapurnaworldtrade",
+    "https://www.linkedin.com/company/annapurna-world-trade"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91-XXXXXXXXXX",
+    "contactType": "customer service",
+    "areaServed": "IN",
+    "availableLanguage": ["English", "Hindi", "Mandarin"]
+  }
+}
+```
+
+**C. Location Pages (Geo-Targeting)**
+```
+Create city-specific landing pages:
+- /import-from-china-to-mumbai
+- /import-from-china-to-delhi
+- /import-from-china-to-bangalore
+- /import-from-china-to-hyderabad
+- /import-from-china-to-chennai
+- /import-from-china-to-pune
+
+Each page targets: "Import from China to [City Name]"
+```
+
+#### 3. **Backlink Strategy**
+
+**Target 100+ High-Quality Backlinks:**
+```
+Industry Directories:
+- IndiaMART supplier listing
+- TradeIndia profile
+- Export India directory
+- ExportersIndia.com
+
+Chamber of Commerce:
+- Indian Chamber of Commerce
+- PHD Chamber of Commerce
+- FICCI membership
+- CII member profile
+
+Guest Posting:
+- Trade blogs (indiantradeportal.com)
+- Import/export publications
+- Business news sites (YourStory, Inc42)
+
+Partnership Links:
+- Logistics company partnerships
+- Customs broker associations
+- Freight forwarder directories
+```
+
+#### 4. **Google Business Profile Optimization**
+```
+- Create GMB for Yiwu office
+- Create GMB for India operations
+- Add import/export as primary category
+- Post weekly with keyword-rich content
+- Collect 50+ reviews in first 6 months
+- Add photos of warehouse, products, team
+```
+
+#### 5. **Social Signals & Content Marketing**
+
+**LinkedIn Strategy (B2B Focus):**
+```
+Post 3x per week:
+- Monday: Industry insights ("China trade policy updates")
+- Wednesday: Product spotlights ("Trending products from Yiwu")
+- Friday: Success stories ("How we helped [Client] save 30%")
+
+Target hashtags: #ImportExport #ChinaTrade #GlobalTrade #B2B #Sourcing
+```
+
+**YouTube SEO (Video Content):**
+```
+Create videos targeting keywords:
+- "How to import from China to India (Step-by-Step)"
+- "Yiwu Market Tour for Indian Buyers"
+- "China Import Cost Breakdown [2024]"
+- "Customs Clearance Guide for Indian Importers"
+- "Top 10 Products to Import from China"
+
+Optimize:
+- Keyword-rich titles
+- Detailed descriptions with timestamps
+- Tags: import from china, china import, yiwu market
+- End screens linking to website
+```
+
+---
+
+## �📊 Executive Summary
 
 Annapurna World Trade is a **China-India-Global import-export e-commerce platform** built with enterprise-grade technology stack. Currently, the platform has a **fully functional frontend deployed on Vercel** with 3D globe animations, real product data, SEO optimization, and Supabase authentication integration.
 
@@ -783,3 +1045,38 @@ Leadership:
 **Contact**: services.seekhowithrua.com
 
 **Next Review**: April 26, 2026 (Post backend deployment)
+
+---
+
+## 📋 APPENDIX: File Responsibility Quick Reference
+
+### **CRITICAL FILES (Never Delete)**
+1. `frontend/src/store/cartStore.ts` - Cart functionality (ACTIVE VERSION)
+2. `frontend/src/store/authStore.ts` - Authentication
+3. `frontend/src/types/index.ts` - Type definitions
+4. `frontend/app/layout.tsx` - Root layout + SEO
+5. `frontend/app/(store)/page.tsx` - Homepage
+
+### **HIGH PRIORITY FILES (Core Features)**
+1. `frontend/app/(store)/products/[slug]/page.tsx` - Product detail
+2. `frontend/app/(store)/cart/page.tsx` - Shopping cart
+3. `frontend/app/(auth)/login/page.tsx` - Login
+4. `frontend/src/components/layout/Navbar.tsx` - Navigation
+5. `frontend/src/components/animations/GlobeAnimation.tsx` - 3D Globe
+
+### **FILES TO IGNORE (Safe to Delete)**
+1. `frontend/store/cartStore.ts` - Duplicate (use `src/store/` version)
+2. `frontend/src/data/products.ts` - Legacy sample data
+3. Any `.backup`, `.temp`, `.old` files
+
+### **BACKEND CRITICAL FILES**
+1. `backend/annapurna/settings.py` - Django settings
+2. `backend/accounts/models.py` - User models
+3. `backend/products/models.py` - Product models
+4. `backend/orders/models.py` - Order models
+
+### **DEPLOYMENT FILES**
+1. `frontend/vercel.json` - Vercel deployment config
+2. `backend/render.yaml` - Render.com deployment config
+3. `DEPLOYMENT.md` - Deployment guide
+4. `FEATURES_SUMMARY.md` - Features documentation
