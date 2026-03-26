@@ -77,16 +77,16 @@ function Earth() {
     canvas.height = 1024
     const ctx = canvas.getContext('2d')!
     
-    // Ocean background - deep blue
-    const gradient = ctx.createLinearGradient(0, 0, 0, 1024)
-    gradient.addColorStop(0, '#0a1628')
-    gradient.addColorStop(0.5, '#1a365d')
-    gradient.addColorStop(1, '#0a1628')
-    ctx.fillStyle = gradient
+    // Ocean background - deep blue with tech feel
+    const oceanGradient = ctx.createLinearGradient(0, 0, 0, 1024)
+    oceanGradient.addColorStop(0, '#050d1a')
+    oceanGradient.addColorStop(0.5, '#0a192f')
+    oceanGradient.addColorStop(1, '#050d1a')
+    ctx.fillStyle = oceanGradient
     ctx.fillRect(0, 0, 2048, 1024)
     
-    // Add continent shapes with better detail
-    ctx.fillStyle = '#2d5a3d'
+    // Base continent color
+    ctx.fillStyle = '#1a3d2e'
     
     // Asia (more detailed shape)
     ctx.beginPath()
@@ -96,13 +96,35 @@ function Earth() {
     ctx.quadraticCurveTo(1350, 400, 1400, 300)
     ctx.fill()
     
-    // India
+    // CHINA - Highlight in BRIGHT GREEN
+    ctx.fillStyle = '#00ff44'
+    ctx.shadowColor = '#00ff44'
+    ctx.shadowBlur = 20
     ctx.beginPath()
-    ctx.moveTo(1300, 450)
-    ctx.quadraticCurveTo(1350, 400, 1380, 480)
-    ctx.quadraticCurveTo(1350, 550, 1300, 520)
-    ctx.quadraticCurveTo(1250, 480, 1300, 450)
+    ctx.moveTo(1450, 320)
+    ctx.quadraticCurveTo(1580, 280, 1620, 380)
+    ctx.quadraticCurveTo(1550, 450, 1480, 420)
+    ctx.quadraticCurveTo(1420, 380, 1450, 320)
     ctx.fill()
+    ctx.shadowBlur = 0
+    
+    // Reset continent color
+    ctx.fillStyle = '#1a3d2e'
+    
+    // INDIA - Highlight in BRIGHT GREEN
+    ctx.fillStyle = '#00ff44'
+    ctx.shadowColor = '#00ff44'
+    ctx.shadowBlur = 20
+    ctx.beginPath()
+    ctx.moveTo(1280, 420)
+    ctx.quadraticCurveTo(1350, 380, 1380, 480)
+    ctx.quadraticCurveTo(1340, 550, 1280, 520)
+    ctx.quadraticCurveTo(1240, 460, 1280, 420)
+    ctx.fill()
+    ctx.shadowBlur = 0
+    
+    // Reset continent color
+    ctx.fillStyle = '#1a3d2e'
     
     // Europe
     ctx.beginPath()
@@ -117,13 +139,20 @@ function Earth() {
     ctx.quadraticCurveTo(980, 450, 1050, 450)
     ctx.fill()
     
-    // North America
+    // USA - Highlight in BRIGHT GREEN
+    ctx.fillStyle = '#00ff44'
+    ctx.shadowColor = '#00ff44'
+    ctx.shadowBlur = 20
     ctx.beginPath()
-    ctx.moveTo(400, 250)
-    ctx.quadraticCurveTo(600, 150, 700, 300)
-    ctx.quadraticCurveTo(650, 450, 450, 400)
-    ctx.quadraticCurveTo(300, 350, 400, 250)
+    ctx.moveTo(350, 220)
+    ctx.quadraticCurveTo(550, 150, 680, 280)
+    ctx.quadraticCurveTo(620, 400, 420, 380)
+    ctx.quadraticCurveTo(280, 320, 350, 220)
     ctx.fill()
+    ctx.shadowBlur = 0
+    
+    // Reset continent color
+    ctx.fillStyle = '#1a3d2e'
     
     // South America
     ctx.beginPath()
@@ -138,7 +167,32 @@ function Earth() {
     ctx.ellipse(1700, 750, 100, 60, 0, 0, Math.PI * 2)
     ctx.fill()
     
-    // Add grid lines for tech effect
+    // Add connection lines between highlighted countries
+    ctx.strokeStyle = 'rgba(0, 255, 68, 0.4)'
+    ctx.lineWidth = 3
+    ctx.setLineDash([10, 5])
+    
+    // China to India connection
+    ctx.beginPath()
+    ctx.moveTo(1530, 360)
+    ctx.quadraticCurveTo(1400, 400, 1320, 470)
+    ctx.stroke()
+    
+    // India to USA connection
+    ctx.beginPath()
+    ctx.moveTo(1320, 470)
+    ctx.quadraticCurveTo(900, 500, 520, 300)
+    ctx.stroke()
+    
+    // China to USA connection
+    ctx.beginPath()
+    ctx.moveTo(1530, 360)
+    ctx.quadraticCurveTo(1100, 200, 520, 300)
+    ctx.stroke()
+    
+    ctx.setLineDash([])
+    
+    // Add glowing tech grid
     ctx.strokeStyle = 'rgba(255, 200, 100, 0.1)'
     ctx.lineWidth = 1
     for (let i = 0; i < 2048; i += 100) {
