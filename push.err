@@ -1,0 +1,7 @@
+remote: error: Trace: 4e1be0cbcceeff34c91b4d96fb5abe05b4c73971afd50b4ed544bb8d410fc655        
+remote: error: See https://gh.io/lfs for more information.        
+remote: error: File frontend/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node is 129.47 MB; this exceeds GitHub's file size limit of 100.00 MB        
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.        
+To https://github.com/Sachinkumarrua2023/annapurna-platform.git
+ ! [remote rejected]   main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/Sachinkumarrua2023/annapurna-platform.git'

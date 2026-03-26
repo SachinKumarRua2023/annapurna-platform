@@ -1,82 +1,82 @@
-// src/store/cartStore.ts
 import { create } from 'zustand'
-import api from '@/lib/api'
-import toast from 'react-hot-toast'
+import { persist } from 'zustand/middleware'
 
-interface CartItem {
+export interface Product {
   id: string
-  product: {
-    id: string
-    name: string
-    price: number
-    compare_price: number | null
-    primary_image: string | null
-    unit: string
-    stock: number
-  }
+  name: string
+  description: string
+  price: number
+  originalPrice?: number
+  image: string
+  category: string
+  inStock: boolean
+  rating: number
+  reviews: number
+  weight?: string
+  origin?: string
+}
+
+export interface CartItem extends Product {
   quantity: number
-  subtotal: number
 }
 
 interface CartState {
   items: CartItem[]
-  total: number
-  itemCount: number
-  isLoading: boolean
-
-  fetchCart: () => Promise<void>
-  addItem: (productId: string, quantity?: number) => Promise<void>
-  updateItem: (itemId: string, quantity: number) => Promise<void>
-  removeItem: (itemId: string) => Promise<void>
+  addToCart: (product: Product) => void
+  removeFromCart: (productId: string) => void
+  updateQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
+  getTotalItems: () => number
+  getTotalPrice: () => number
 }
 
-export const useCartStore = create<CartState>((set, get) => ({
-  items: [],
-  total: 0,
-  itemCount: 0,
-  isLoading: false,
+export const useCartStore = create<CartState>()(
+  persist(
+    (set, get) => ({
+      items: [],
 
-  fetchCart: async () => {
-    try {
-      set({ isLoading: true })
-      const { data } = await api.get('/api/orders/cart/')
-      set({ items: data.items, total: data.total, itemCount: data.item_count })
-    } catch {
-      // User not logged in — cart stays empty
-    } finally {
-      set({ isLoading: false })
-    }
-  },
+      addToCart: (product) => {
+        const items = get().items
+        const existingItem = items.find(item => item.id === product.id)
+        if (existingItem) {
+          set({
+            items: items.map(item =>
+              item.id === product.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            )
+          })
+        } else {
+          set({ items: [...items, { ...product, quantity: 1 }] })
+        }
+      },
 
-  addItem: async (productId, quantity = 1) => {
-    try {
-      const { data } = await api.post('/api/orders/cart/items/', { product_id: productId, quantity })
-      set({ items: data.items, total: data.total, itemCount: data.item_count })
-      toast.success('Added to cart!')
-    } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Failed to add item')
-    }
-  },
+      removeFromCart: (productId) => {
+        set({ items: get().items.filter(item => item.id !== productId) })
+      },
 
-  updateItem: async (itemId, quantity) => {
-    try {
-      const { data } = await api.patch(`/api/orders/cart/items/${itemId}/`, { quantity })
-      set({ items: data.items, total: data.total, itemCount: data.item_count })
-    } catch {
-      toast.error('Failed to update cart')
-    }
-  },
+      updateQuantity: (productId, quantity) => {
+        if (quantity <= 0) {
+          get().removeFromCart(productId)
+        } else {
+          set({
+            items: get().items.map(item =>
+              item.id === productId ? { ...item, quantity } : item
+            )
+          })
+        }
+      },
 
-  removeItem: async (itemId) => {
-    try {
-      const { data } = await api.delete(`/api/orders/cart/items/${itemId}/`)
-      set({ items: data.items, total: data.total, itemCount: data.item_count })
-      toast.success('Removed from cart')
-    } catch {
-      toast.error('Failed to remove item')
-    }
-  },
+      clearCart: () => set({ items: [] }),
 
-  clearCart: () => set({ items: [], total: 0, itemCount: 0 }),
-}))
+      getTotalItems: () => {
+        return get().items.reduce((total, item) => total + item.quantity, 0)
+      },
+
+      getTotalPrice: () => {
+        return get().items.reduce((total, item) => total + item.price * item.quantity, 0)
+      }
+    }),
+    { name: 'annapurna-cart' }
+  )
+)
