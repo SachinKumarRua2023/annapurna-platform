@@ -259,172 +259,13 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Galaxy Hero Section with 3D Globe Animation */}
-      <section className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
-        {/* Animated Stars Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Large stars */}
-          {[...Array(50)].map((_, i) => (
-            <div
-              key={`star-${i}`}
-              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                opacity: Math.random() * 0.8 + 0.2,
-              }}
-            />
-          ))}
-          {/* Small twinkling stars */}
-          {[...Array(100)].map((_, i) => (
-            <div
-              key={`twinkle-${i}`}
-              className="absolute w-0.5 h-0.5 bg-blue-200 rounded-full"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-                opacity: Math.random() * 0.6 + 0.2,
-              }}
-            />
-          ))}
-          {/* Shooting stars */}
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={`shooting-${i}`}
-              className="absolute h-px w-20 bg-gradient-to-r from-transparent via-white to-transparent"
-              style={{
-                top: `${Math.random() * 50}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `shooting ${8 + Math.random() * 10}s linear infinite`,
-                animationDelay: `${Math.random() * 10}s`,
-                transform: 'rotate(-45deg)',
-                opacity: 0,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Galaxy Nebula Effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent" />
-
-        {/* Content Overlay */}
-        <div className="relative z-10 pt-32 pb-20">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left: Text Content */}
-              <div className="text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 bg-amber-500/20 backdrop-blur-sm border border-amber-500/30 text-amber-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                  <Globe className="w-4 h-4 animate-spin" style={{ animationDuration: '3s' }} />
-                  Global Trade Network
-                </div>
-                
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-                  <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent">
-                    Annapurna
-                  </span>
-                  <br />
-                  <span className="text-white">Platform</span>
-                </h1>
-                
-                <p className="text-xl text-gray-300 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                  Connecting Nepal to the world through sea, air & land. 
-                  Watch our global trade routes come alive with real-time shipping.
-                </p>
-                
-                {/* Transport Icons */}
-                <div className="flex justify-center lg:justify-start gap-6 mb-8">
-                  <div className="flex items-center gap-2 text-cyan-400 bg-cyan-950/50 px-4 py-2 rounded-full border border-cyan-800">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-                    <span className="text-sm">Ocean Freight</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-orange-400 bg-orange-950/50 px-4 py-2 rounded-full border border-orange-800">
-                    <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
-                    <span className="text-sm">Air Cargo</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-green-400 bg-green-950/50 px-4 py-2 rounded-full border border-green-800">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-sm">Land Transport</span>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <button 
-                    onClick={handleGetStarted}
-                    className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-amber-600/30 hover:shadow-amber-600/50 hover:scale-105 flex items-center justify-center gap-2"
-                  >
-                    <Package className="w-5 h-5" />
-                    Explore Products
-                  </button>
-                  <button className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
-                    <TrendingUp className="w-5 h-5" />
-                    Track Shipment
-                  </button>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
-                  {[
-                    { value: '150+', label: 'Countries' },
-                    { value: '50K+', label: 'Shipments/Year' },
-                    { value: '99.8%', label: 'On-Time' },
-                  ].map((stat, i) => (
-                    <div key={i} className="text-center">
-                      <div className="text-2xl md:text-3xl font-bold text-amber-400">{stat.value}</div>
-                      <div className="text-xs md:text-sm text-gray-400">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right: 3D Globe Animation */}
-              <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
-                {/* Glow effect behind globe */}
-                <div className="absolute inset-0 bg-gradient-radial from-amber-500/20 via-transparent to-transparent blur-3xl" />
-                
-                <Suspense fallback={
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center">
-                      <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                      <p className="text-gray-400">Loading Galaxy View...</p>
-                    </div>
-                  </div>
-                }>
-                  <GlobeAnimation />
-                </Suspense>
-
-                {/* Floating planet decoration */}
-                <div className="absolute -top-10 -right-10 w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full opacity-60 blur-sm animate-pulse" style={{ animationDuration: '4s' }} />
-                <div className="absolute bottom-20 -left-5 w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-40 blur-sm animate-pulse" style={{ animationDuration: '3s', animationDelay: '1s' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-            <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
-          </div>
-        </div>
-
-        {/* CSS Animations */}
-        <style jsx>{`
-          @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-          }
-          @keyframes shooting {
-            0% { transform: translateX(-100px) translateY(100px) rotate(-45deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateX(300px) translateY(-300px) rotate(-45deg); opacity: 0; }
-          }
-        `}</style>
-      </section>
+      {/* Original Hero Section with Floating 3D Shapes */}
+      <ThreeHero
+        title="Annapurna Platform"
+        subtitle="Discover authentic Nepalese treasures from local farmers and artisans. Every product tells a story of tradition and quality."
+        ctaText="Explore Collection"
+        onCtaClick={handleGetStarted}
+      />
 
       {/* Trust Indicators */}
       <section className="py-8 bg-white/80 backdrop-blur-sm border-b border-amber-200/50">
@@ -535,6 +376,84 @@ export default function HomePage() {
                   <p className="text-gray-600 text-sm">{category.count} products</p>
                   <div className={`mt-3 w-full h-1 bg-gradient-to-r ${category.color} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`} />
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3D Earth Globe - Global Trade Network */}
+      <section className="py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+        {/* Stars background */}
+        <div className="absolute inset-0">
+          {[...Array(30)].map((_, i) => (
+            <div
+              key={`earth-star-${i}`}
+              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                opacity: Math.random() * 0.6 + 0.2,
+              }}
+            />
+          ))}
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Globe className="w-4 h-4" />
+              Global Trade Network
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Worldwide Shipping & Logistics
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Watch our global trade routes in action. From ships crossing oceans to planes flying continents, 
+              we connect Nepal to the world through sea, air, and land transport.
+            </p>
+            <div className="flex justify-center gap-6 mt-8 flex-wrap">
+              <div className="flex items-center gap-2 text-cyan-400 bg-cyan-950/50 px-4 py-2 rounded-full border border-cyan-800">
+                <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse" />
+                <span className="text-sm">Ocean Freight (Ships)</span>
+              </div>
+              <div className="flex items-center gap-2 text-orange-400 bg-orange-950/50 px-4 py-2 rounded-full border border-orange-800">
+                <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse" />
+                <span className="text-sm">Air Cargo (Planes)</span>
+              </div>
+              <div className="flex items-center gap-2 text-green-400 bg-green-950/50 px-4 py-2 rounded-full border border-green-800">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-sm">Land Transport (Trucks)</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative h-[500px] md:h-[600px] rounded-2xl overflow-hidden bg-slate-950/50 border border-slate-700">
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center">
+                  <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                  <p className="text-gray-400">Loading 3D Globe...</p>
+                </div>
+              </div>
+            }>
+              <GlobeAnimation />
+            </Suspense>
+          </div>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+            {[
+              { number: '150+', label: 'Countries Served', icon: Globe },
+              { number: '50K+', label: 'Shipments/Year', icon: Truck },
+              { number: '99.8%', label: 'On-Time Delivery', icon: Package },
+              { number: '24/7', label: 'Global Tracking', icon: Shield },
+            ].map((stat, i) => (
+              <div key={i} className="text-center p-6 bg-slate-800/50 rounded-xl border border-slate-700">
+                <stat.icon className="w-8 h-8 text-amber-500 mx-auto mb-3" />
+                <div className="text-3xl font-bold text-white mb-1">{stat.number}</div>
+                <div className="text-gray-400 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
