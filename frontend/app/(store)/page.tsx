@@ -379,6 +379,77 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Client Testimonials */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
+            <p className="text-xl text-gray-600">Trusted by 10,000+ businesses across 150+ countries</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Rajesh Kumar',
+                company: 'Delhi Import Co.',
+                location: 'Delhi, India',
+                quote: 'Annapurna made importing from China seamless. Their verified suppliers and transparent pricing saved us 30% on procurement costs.',
+                rating: 5
+              },
+              {
+                name: 'Sarah Chen',
+                company: 'Chen Trading LLC',
+                location: 'Dubai, UAE',
+                quote: 'The door-to-door service is incredible. From Yiwu pickup to Dubai delivery, everything was handled professionally.',
+                rating: 5
+              },
+              {
+                name: 'Michael Osei',
+                company: 'Accra Wholesale',
+                location: 'Ghana, Africa',
+                quote: 'Best import-export partner we have worked with. Quality inspection before shipment gives us complete peace of mind.',
+                rating: 5
+              }
+            ].map((client, i) => (
+              <div key={i} className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: client.rating }).map((_, j) => (
+                    <Star key={j} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 italic">"{client.quote}"</p>
+                <div className="border-t border-gray-200 pt-4">
+                  <div className="font-semibold text-gray-900">{client.name}</div>
+                  <div className="text-sm text-gray-500">{client.company}</div>
+                  <div className="text-xs text-amber-600 mt-1">{client.location}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Technology Partner Section */}
+      <section className="py-16 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-gray-500 text-sm mb-4">Technology Partner</p>
+          <a 
+            href="https://services.seekhowithrua.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 text-gray-800 hover:text-amber-600 transition-colors"
+          >
+            <div className="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-xl">S</span>
+            </div>
+            <div className="text-left">
+              <div className="text-xl font-bold">SeekHowItRua Services</div>
+              <div className="text-sm text-gray-500">Digital Solutions Provider (India)</div>
+            </div>
+          </a>
+        </div>
+      </section>
+
       {/* Enhanced Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-6">
