@@ -1,7 +1,7 @@
 // World-Class Service Worker - Google CEO Level Performance
-const CACHE_NAME = 'annapurna-v1.0.0'
-const STATIC_CACHE = 'static-v1'
-const DYNAMIC_CACHE = 'dynamic-v1'
+const CACHE_NAME = 'annapurna-v1.0.1'
+const STATIC_CACHE = 'static-v2'
+const DYNAMIC_CACHE = 'dynamic-v2'
 
 // Files to cache immediately
 const STATIC_ASSETS = [
@@ -29,7 +29,8 @@ self.addEventListener('activate', (event) => {
     caches.keys()
       .then(keys => Promise.all(
         keys.map(key => {
-          if (key !== STATIC_CACHE && key !== DYNAMIC_CACHE) {
+          // Clean up old caches (v1 and any others)
+          if (![STATIC_CACHE, DYNAMIC_CACHE].includes(key)) {
             return caches.delete(key)
           }
         })
