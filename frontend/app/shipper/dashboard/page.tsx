@@ -14,7 +14,6 @@ import {
   User,
   Navigation,
   Phone,
-  Calendar,
   ChevronRight,
   Search
 } from 'lucide-react'
@@ -344,7 +343,7 @@ export default function ShipperDashboard() {
                 <div>
                   <p className="font-medium text-gray-900">{stop.time}</p>
                   <p className="text-sm text-gray-700">{stop.location}</p>
-                  <p className="text-xs text-gray-500">{stop.address}</p>
+                  <p className="text-xs text-gray-400">{stop.address}</p>
                 </div>
               </div>
             ))}

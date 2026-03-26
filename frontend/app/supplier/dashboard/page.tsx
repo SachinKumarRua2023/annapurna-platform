@@ -15,8 +15,7 @@ import {
   ShoppingCart,
   LogOut,
   User,
-  Store,
-  ChevronRight
+  Store
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
