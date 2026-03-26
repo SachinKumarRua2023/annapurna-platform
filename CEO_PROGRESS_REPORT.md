@@ -77,6 +77,7 @@
 ### **LEGACY FILES - MAY BE REMOVED**
 ```
 ❌ IGNORE: frontend/src/data/products.ts - Using API data now
+❌ IGNORE: .windsurf/workflows/product.md - Empty workflow file
 ❌ IGNORE: Any .backup, .old, .temp files
 ```
 
