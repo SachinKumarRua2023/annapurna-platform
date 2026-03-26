@@ -1,10 +1,13 @@
 'use client'
 // World-Class Homepage - Google CEO Level Design System
-import { useState, useEffect, useMemo } from 'react'
-import { ShoppingCart, User, Search, Menu, X, Star, TrendingUp, Package, Sparkles, Shield, Truck, Heart } from 'lucide-react'
+import { useState, useEffect, useMemo, Suspense, lazy } from 'react'
+import { ShoppingCart, User, Search, Menu, X, Star, TrendingUp, Package, Sparkles, Shield, Truck, Heart, Globe } from 'lucide-react'
 import ThreeHero from '@/components/ui/ThreeHero'
 import ModernProductGrid from '@/components/ui/ModernProductGrid'
 import { useAuthStore } from '@/store/authStore'
+
+// Lazy load 3D Globe Animation with ships, planes, trucks
+const GlobeAnimation = lazy(() => import('@/components/animations/GlobeAnimation'))
 
 interface Product {
   id: string
@@ -379,6 +382,68 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 3D Globe Animation - Global Trade Routes */}
+      <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Globe className="w-4 h-4" />
+              Global Trade Network
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Worldwide Shipping & Logistics
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Watch our global trade routes in action. From ships crossing oceans to planes flying continents, 
+              we connect Nepal to the world through sea, air, and land transport.
+            </p>
+            <div className="flex justify-center gap-6 mt-8">
+              <div className="flex items-center gap-2 text-cyan-400">
+                <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse" />
+                <span className="text-sm">Ocean Freight (Ships)</span>
+              </div>
+              <div className="flex items-center gap-2 text-orange-400">
+                <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse" />
+                <span className="text-sm">Air Cargo (Planes)</span>
+              </div>
+              <div className="flex items-center gap-2 text-green-400">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-sm">Land Transport (Trucks)</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative h-[500px] rounded-2xl overflow-hidden bg-slate-950/50 border border-slate-700">
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center">
+                  <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                  <p className="text-gray-400">Loading 3D Globe...</p>
+                </div>
+              </div>
+            }>
+              <GlobeAnimation />
+            </Suspense>
+          </div>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+            {[
+              { number: '150+', label: 'Countries Served', icon: Globe },
+              { number: '50K+', label: 'Shipments/Year', icon: Truck },
+              { number: '99.8%', label: 'On-Time Delivery', icon: Package },
+              { number: '24/7', label: 'Global Tracking', icon: Shield },
+            ].map((stat, i) => (
+              <div key={i} className="text-center p-6 bg-slate-800/50 rounded-xl border border-slate-700">
+                <stat.icon className="w-8 h-8 text-amber-500 mx-auto mb-3" />
+                <div className="text-3xl font-bold text-white mb-1">{stat.number}</div>
+                <div className="text-gray-400 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Client Testimonials */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -520,6 +585,39 @@ export default function HomePage() {
             </div>
             
             <div>
+              <h4 className="font-semibold mb-6 text-lg">Our Clients</h4>
+              <div className="space-y-4 text-gray-400">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-amber-600/20 rounded-full flex items-center justify-center">
+                    <Star className="w-5 h-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Rajesh Kumar</p>
+                    <p className="text-xs">Delhi Import Co., India</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center">
+                    <Star className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Sarah Chen</p>
+                    <p className="text-xs">Chen Trading LLC, Dubai</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-600/20 rounded-full flex items-center justify-center">
+                    <Star className="w-5 h-5 text-green-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Michael Osei</p>
+                    <p className="text-xs">Accra Wholesale, Ghana</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
               <h4 className="font-semibold mb-6 text-lg">Connect With Us</h4>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-gray-400">
@@ -545,7 +643,7 @@ export default function HomePage() {
                     <Shield className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">Kathmandu, Nepal</p>
+                    <p className="font-medium text-white">Noida India</p>
                     <p className="text-sm">Visit our showroom</p>
                   </div>
                 </div>
@@ -554,9 +652,28 @@ export default function HomePage() {
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8">
+            {/* Technology Partner */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6 pb-6 border-b border-gray-800">
+              <p className="text-gray-500 text-sm">Technology Partner</p>
+              <a 
+                href="https://services.seekhowithrua.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 text-gray-300 hover:text-amber-400 transition-colors"
+              >
+                <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">S</span>
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold">SeekHowItRua Services</div>
+                  <div className="text-xs text-gray-500">Digital Solutions Provider (India)</div>
+                </div>
+              </a>
+            </div>
+            
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-gray-400 text-sm">
-                &copy; 2024 Annapurna Platform. All rights reserved. Made with ❤️ in Nepal
+                &copy; 2026 Annapurna Platform. All rights reserved. Made with ❤️ in Nepal
               </p>
               <div className="flex gap-6 text-sm text-gray-400">
                 <a href="#" className="hover:text-amber-400 transition-colors">Privacy Policy</a>
