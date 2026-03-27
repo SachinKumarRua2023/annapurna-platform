@@ -49,12 +49,14 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
     
+    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500))
     
     setIsSubmitting(false)
     setSubmitted(true)
     toast.success('Message sent successfully! We will contact you soon.')
     
+    // Reset after showing success
     setTimeout(() => {
       setSubmitted(false)
       setFormData({
@@ -76,8 +78,8 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--cream)]">
-      {/* Hero Section */}
+    <main className="min-h-screen">
+      {/* ── HERO SECTION ───────────────────────────────────── */}
       <section className="relative py-24 overflow-hidden" style={{ background: 'var(--ink)' }}>
         {/* Background gradients */}
         <div className="absolute inset-0 pointer-events-none">
@@ -107,7 +109,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Info Cards */}
+      {/* ── CONTACT INFO CARDS ───────────────────────────── */}
       <section className="py-20" style={{ background: 'var(--cream)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -143,7 +145,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form */}
+      {/* ── CONTACT FORM ─────────────────────────────────── */}
       <section className="py-20" style={{ background: 'var(--ash)' }}>
         <div className="max-w-4xl mx-auto px-6">
           <motion.div 
@@ -224,7 +226,7 @@ export default function ContactPage() {
                     
                     <div className="grid md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--ink)' }}>
+                        <label className="block text-sm font-medium text-stone-700 mb-1">
                           Phone Number
                         </label>
                         <input
@@ -232,16 +234,12 @@ export default function ContactPage() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl outline-none transition-all"
-                          style={{ 
-                            border: '1px solid var(--mist)',
-                            background: 'var(--cream)'
-                          }}
+                          className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
                           placeholder="+1 234 567 8900"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--ink)' }}>
+                        <label className="block text-sm font-medium text-stone-700 mb-1">
                           Company Name
                         </label>
                         <input
@@ -249,18 +247,14 @@ export default function ContactPage() {
                           name="company"
                           value={formData.company}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl outline-none transition-all"
-                          style={{ 
-                            border: '1px solid var(--mist)',
-                            background: 'var(--cream)'
-                          }}
+                          className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
                           placeholder="Your Company Ltd."
                         />
                       </div>
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--ink)' }}>
+                      <label className="block text-sm font-medium text-stone-700 mb-1">
                         Subject *
                       </label>
                       <select
@@ -268,11 +262,7 @@ export default function ContactPage() {
                         value={formData.subject}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-xl outline-none transition-all"
-                        style={{ 
-                          border: '1px solid var(--mist)',
-                          background: 'var(--cream)'
-                        }}
+                        className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
                       >
                         <option value="">Select a subject</option>
                         <option value="general">General Inquiry</option>
@@ -284,7 +274,7 @@ export default function ContactPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--ink)' }}>
+                      <label className="block text-sm font-medium text-stone-700 mb-1">
                         Message *
                       </label>
                       <textarea
@@ -293,11 +283,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         rows={4}
-                        className="w-full px-4 py-3 rounded-xl outline-none transition-all resize-none"
-                        style={{ 
-                          border: '1px solid var(--mist)',
-                          background: 'var(--cream)'
-                        }}
+                        className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all resize-none"
                         placeholder="Tell us about your requirements..."
                       />
                     </div>
@@ -305,12 +291,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.02]"
-                      style={{ 
-                        background: 'linear-gradient(135deg, var(--gold), var(--clay))',
-                        color: 'white',
-                        opacity: isSubmitting ? 0.7 : 1
-                      }}
+                      className="w-full py-4 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
                     >
                       {isSubmitting ? (
                         <>
@@ -329,8 +310,8 @@ export default function ContactPage() {
               </div>
               
               {/* Info Side */}
-              <div className="md:col-span-2 p-8 md:p-10 text-white" style={{ background: 'var(--ink)' }}>
-                <h3 className="font-display text-xl font-bold mb-6">Why Choose Us?</h3>
+              <div className="md:col-span-2 bg-green-700 p-8 md:p-10 text-white">
+                <h3 className="text-xl font-bold mb-6">Why Choose Us?</h3>
                 <ul className="space-y-4">
                   {[
                     'Verified suppliers and buyers',
@@ -343,34 +324,30 @@ export default function ContactPage() {
                     'Customs clearance assistance',
                   ].map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--gold)' }} />
-                      <span style={{ color: 'rgba(255,255,255,0.7)' }}>{item}</span>
+                      <CheckCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-green-100">{item}</span>
                     </li>
                   ))}
                 </ul>
                 
-                <div className="mt-8 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                  <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    For urgent inquiries, call us directly at
+                <div className="mt-8 pt-8 border-t border-green-600">
+                  <p className="text-sm text-green-200">
+                    For urgent inquiries, please call us directly at
                   </p>
-                  <p className="text-lg font-semibold" style={{ color: 'var(--gold2)' }}>+91 94075 74288</p>
+                  <p className="text-lg font-semibold mt-1">+91 94075 74288</p>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Map Section */}
-      <section className="py-20" style={{ background: 'white' }}>
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)' }}>
-              <MapPin size={14} style={{ color: 'var(--gold)' }} />
-              <span style={{ color: 'var(--clay)', fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Visit Us</span>
-            </div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--ink)' }}>Our Locations</h2>
-            <p style={{ color: '#666' }}>Visit us at our offices in China and India</p>
+            <h2 className="text-3xl font-bold text-stone-900 mb-4">Our Locations</h2>
+            <p className="text-stone-600">Visit us at our offices in China and India</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
@@ -379,37 +356,27 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2"
-              style={{ 
-                background: 'var(--cream)',
-                border: '1px solid var(--mist)',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.06)'
-              }}
+              className="rounded-2xl overflow-hidden bg-stone-100"
             >
-              <div className="aspect-video flex items-center justify-center relative overflow-hidden"
-                style={{ background: 'linear-gradient(135deg, #DC2626 0%, #991B1B 100%)' }}>
-                <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%)' }} />
-                <div className="text-center text-white relative z-10">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                    style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)' }}>
-                    <MapPin className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-display text-xl font-bold">China Office</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.7)' }}>Yiwu, Zhejiang Province</p>
+              <div className="aspect-video bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center">
+                <div className="text-center text-white">
+                  <MapPin className="w-12 h-12 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold">China Office</h3>
+                  <p className="text-red-200">Yiwu, Zhejiang Province</p>
                 </div>
               </div>
               <div className="p-6">
-                <h4 className="font-bold mb-2" style={{ color: 'var(--ink)' }}>Yiwu Annapurna World Trade Co., Ltd.</h4>
-                <p className="text-sm mb-4" style={{ color: '#666' }}>
+                <h4 className="font-bold text-stone-900 mb-2">Yiwu Annapurna World Trade Co., Ltd.</h4>
+                <p className="text-stone-600 text-sm mb-4">
                   Room 201, Building 3, Yiwu International Trade City, 
                   Yiwu, Zhejiang, China 322000
                 </p>
                 <div className="flex items-center gap-4 text-sm">
-                  <a href="tel:+8615757920888" className="hover:underline transition-all" style={{ color: 'var(--clay)' }}>
+                  <a href="tel:+8615757920888" className="text-green-700 hover:underline">
                     +86 157 5792 0888
                   </a>
-                  <span style={{ color: '#ccc' }}>|</span>
-                  <span style={{ color: '#888' }}>9:00 AM - 6:00 PM CST</span>
+                  <span className="text-stone-400">|</span>
+                  <span className="text-stone-600">9:00 AM - 6:00 PM CST</span>
                 </div>
               </div>
             </motion.div>
@@ -419,75 +386,31 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2"
-              style={{ 
-                background: 'var(--cream)',
-                border: '1px solid var(--mist)',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.06)'
-              }}
+              className="rounded-2xl overflow-hidden bg-stone-100"
             >
-              <div className="aspect-video flex items-center justify-center relative overflow-hidden"
-                style={{ background: 'linear-gradient(135deg, #F97316 0%, #C2410C 100%)' }}>
-                <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at 70% 30%, rgba(255,255,255,0.3) 0%, transparent 50%)' }} />
-                <div className="text-center text-white relative z-10">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                    style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)' }}>
-                    <MapPin className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-display text-xl font-bold">India Office</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.7)' }}>Delhi NCR</p>
+              <div className="aspect-video bg-gradient-to-br from-orange-600 to-orange-800 flex items-center justify-center">
+                <div className="text-center text-white">
+                  <MapPin className="w-12 h-12 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold">India Office</h3>
+                  <p className="text-orange-200">Delhi NCR</p>
                 </div>
               </div>
               <div className="p-6">
-                <h4 className="font-bold mb-2" style={{ color: 'var(--ink)' }}>Annapurna Imports & Exports Pvt. Ltd.</h4>
-                <p className="text-sm mb-4" style={{ color: '#666' }}>
+                <h4 className="font-bold text-stone-900 mb-2">Annapurna Imports & Exports Pvt. Ltd.</h4>
+                <p className="text-stone-600 text-sm mb-4">
                   405, Tower B, Signature Tower, 
                   South City 1, Gurgaon, Haryana, India 122001
                 </p>
                 <div className="flex items-center gap-4 text-sm">
-                  <a href="tel:+919407574288" className="hover:underline transition-all" style={{ color: 'var(--clay)' }}>
+                  <a href="tel:+919407574288" className="text-green-700 hover:underline">
                     +91 94075 74288
                   </a>
-                  <span style={{ color: '#ccc' }}>|</span>
-                  <span style={{ color: '#888' }}>9:00 AM - 6:00 PM IST</span>
+                  <span className="text-stone-400">|</span>
+                  <span className="text-stone-600">9:00 AM - 6:00 PM IST</span>
                 </div>
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20" style={{ background: 'var(--ink)' }}>
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Start Trading?
-            </h2>
-            <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              Join thousands of businesses already using Annapurna for their global trade needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/products"
-                className="px-8 py-4 font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2"
-                style={{ background: 'linear-gradient(135deg, var(--gold), var(--clay))', color: 'white' }}
-              >
-                Browse Products <ArrowRight size={18} />
-              </Link>
-              <Link
-                href="/register"
-                className="px-8 py-4 font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02]"
-                style={{ background: 'white', color: 'var(--ink)' }}
-              >
-                Create Account
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </section>
     </main>
