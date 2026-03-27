@@ -59,7 +59,9 @@ export class GoogleAuthService {
 
   async syncWithBackend(googleUser: GoogleUser): Promise<void> {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/auth/google/', {
+      // Use environment-based API URL or fallback to relative path
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api'
+      const response = await fetch(`${apiUrl}/auth/google/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +77,9 @@ export class GoogleAuthService {
       })
 
       if (!response.ok) {
-        throw new Error('Backend sync failed')
+        // If backend sync fails, just store locally - don't throw error
+        console.warn('Backend sync failed, using local auth only')
+        return
       }
 
       const data = await response.json()
@@ -87,7 +91,7 @@ export class GoogleAuthService {
       
     } catch (error) {
       console.error('Backend sync error:', error)
-      throw error
+      // Don't throw - allow local auth to work even if backend sync fails
     }
   }
 
